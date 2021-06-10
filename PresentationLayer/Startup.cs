@@ -26,15 +26,49 @@ namespace PresentationLayer
                 app.UseDeveloperExceptionPage();
             }
 
+            int a = 2;
+
+            //обрабатывает, если выполнено условие
+            app.MapWhen(context =>
+            {
+                 return context.Request.Query.ContainsKey("name") &&
+                 context.Request.Query["name"] == "Vlad";
+            }, HandleName);
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    
+                    await context.Response.WriteAsync($"Hello World! Result is {a = a * 2}");
                 });
+
+                endpoints.MapGet("/anotherendpoint", async context =>
+                {
+
+                    await context.Response.WriteAsync($"Hello World! Its another endpoint. Result is {a = a * 2}");
+                });
+
+
             });
+
+
+            //Метод Run не передает обработку запроса дальше, поэтому эти методы располагают в конце.
+            app.Run(async (context) =>   
+            {
+                await context.Response.WriteAsync("Not found!");
+            });
+
+            static void HandleName(IApplicationBuilder app)
+            {
+                app.Run(async context =>
+                {
+                    await context.Response.WriteAsync("Hi, Vlad!");
+                });
+            }
         }
     }
 }
