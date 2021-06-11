@@ -7,6 +7,10 @@
     <tr><td>Название</td><td>Сокращенное название</td><td>Описание</td></tr>
     @foreach (var item in Model)
     {
-        <tr><td>@item.Name</td><td>@item.ShortName</td><td>@item.Description</td></tr>
+        <tr><td>@item.Name</td><td>@item.ShortName</td><td>@item.Description</td>
+        <td>
+            <a asp-action="Edit" asp-controller="Home" asp-route-id="@item.Id">Изменить</a> |
+            <a asp-action="Delete" asp-controller="Home" asp-route-id="@item.Id">Удалить</a>
+        </td></tr>
     }
 </table>

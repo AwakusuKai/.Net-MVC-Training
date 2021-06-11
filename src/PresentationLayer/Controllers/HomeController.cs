@@ -34,5 +34,52 @@ namespace PresentationLayer.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public async Task<IActionResult> ConfirmDelete(int? id)
+        {
+            if (id != null)
+            {
+                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                if (project != null)
+                    return View(project);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id != null)
+            {
+                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                if (project != null)
+                {
+                    db.Projects.Remove(project);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id != null)
+            {
+                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                if (project != null)
+                    return View(project);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(ProjectModel user)
+        {
+            db.Projects.Update(user);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
