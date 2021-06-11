@@ -1,8 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable< PresentationLayer.Models.ProjectModel>
+@{
+    ViewBag.Title = "Все проекты";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<a asp-action="Create">Добавить проект</a>
+<table class="table">
+    <tr><td>Название</td><td>Сокращенное название</td><td>Описание</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr><td>@item.Name</td><td>@item.ShortName</td><td>@item.Description</td></tr>
+    }
+</table>
