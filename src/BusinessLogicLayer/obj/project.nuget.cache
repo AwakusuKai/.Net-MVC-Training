@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ar4Ah1XwYtcqzzK57qXQ8WLBdr90IqExK9ybBfoMeQ9iiWklH4t0xwyU7uoRJlXU+1eg487524lWJAWuVmrjMA==",
+  "dgSpecHash": "FLRRWIGUJOwawwhELm7ar0DcxyW2VolpWq5+uULCE4WvQNi1dze8jfeX6+hftz7/7codDbbBazBOjZC/6vf5Gg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vaskovichvi\\Desktop\\TrainingTaskSln\\src\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+  "projectFilePath": "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

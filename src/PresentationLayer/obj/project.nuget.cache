@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZwuHnXVFtIvuHWuix++MrIt8L03nzdCCaXL/aj+f2AHbIp9gdpVxNMx0Mf3M02MlEZlGDJfXNmyi4o+uLScHoQ==",
+  "dgSpecHash": "I4WESl93P1No5cNTZaaaDyuj35Gq36irKL3hh5+bL6EJMTubNRFUaqo3YMC6EZXHo+E8TYjuJGDqUvmSOCYTvg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vaskovichvi\\Desktop\\TrainingTaskSln\\src\\PresentationLayer\\PresentationLayer.csproj",
+  "projectFilePath": "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\PresentationLayer\\PresentationLayer.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
