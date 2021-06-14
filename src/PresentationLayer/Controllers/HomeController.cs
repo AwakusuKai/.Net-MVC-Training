@@ -23,12 +23,31 @@ namespace PresentationLayer.Controllers
         {
             return View(await db.Projects.ToListAsync());
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projectModel = await db.Projects
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (projectModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(projectModel);
+        }
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Create(ProjectModel projectModel)
+        public async Task<IActionResult> Create(Project projectModel)
         {
             db.Projects.Add(projectModel);
             await db.SaveChangesAsync();
@@ -41,7 +60,7 @@ namespace PresentationLayer.Controllers
         {
             if (id != null)
             {
-                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
                 if (project != null)
                     return View(project);
             }
@@ -53,7 +72,7 @@ namespace PresentationLayer.Controllers
         {
             if (id != null)
             {
-                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
                 if (project != null)
                 {
                     db.Projects.Remove(project);
@@ -68,14 +87,14 @@ namespace PresentationLayer.Controllers
         {
             if (id != null)
             {
-                ProjectModel project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
                 if (project != null)
                     return View(project);
             }
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(ProjectModel user)
+        public async Task<IActionResult> Edit(Project user)
         {
             db.Projects.Update(user);
             await db.SaveChangesAsync();

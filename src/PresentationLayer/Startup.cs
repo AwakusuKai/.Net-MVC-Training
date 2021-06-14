@@ -26,9 +26,7 @@ namespace PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // получаем строку подключения из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            // добавляем контекст MobileContext в качестве сервиса в приложение
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(connection));
 
@@ -39,7 +37,7 @@ namespace PresentationLayer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           // env.EnvironmentName = "Production";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,9 +49,6 @@ namespace PresentationLayer
                 app.UseHsts();
             }
 
-            //app.UseMiddleware<ErrorHandlingMiddleware>();
-            // app.UseStatusCodePages();
-            //app.UseDirectoryBrowser();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -68,8 +63,6 @@ namespace PresentationLayer
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-
-            //app.UseMiddleware<RoutingMiddleware>();
         }
     }
 }
