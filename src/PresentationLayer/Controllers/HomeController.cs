@@ -43,15 +43,20 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Create()
         {
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Project projectModel)
         {
-            db.Projects.Add(projectModel);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Projects.Add(projectModel);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(projectModel);
         }
 
         [HttpGet]
@@ -94,11 +99,16 @@ namespace PresentationLayer.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(Project user)
+        public async Task<IActionResult> Edit(Project project)
         {
-            db.Projects.Update(user);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Projects.Update(project);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(project);
+            
         }
     }
 }

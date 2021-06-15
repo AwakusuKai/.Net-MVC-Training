@@ -11,8 +11,12 @@ namespace PresentationLayer.Models
         [Display(Name = "Идентификатор")]
         public int Id { get; set; }
         [Display(Name = "Название")]
+        [StringLength(50, ErrorMessage = "Длина строки не должна превышать 50 символов")]
+        [Required(ErrorMessage = "Не указано название проекта.")]
         public string Name { get; set; }
         [Display(Name = "Сокращенное название")]
+        [StringLength(10, ErrorMessage = "Длина строки не должна превышать 10 символов")]
+        [Required(ErrorMessage = "Не указано сокращенное название проекта.")]
         public string ShortName { get; set; }
         [Display(Name = "Описание")]
         public string Description { get; set; }
