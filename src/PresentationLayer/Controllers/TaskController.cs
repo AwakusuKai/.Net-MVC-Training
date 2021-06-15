@@ -22,7 +22,7 @@ namespace PresentationLayer.Controllers
         // GET: Task
         public async Task<IActionResult> Index()
         {
-            var dataContext = db.Tasks.Include(t => t.Employee).Include(t => t.Project);
+            var dataContext = db.Tasks.Include(t => t.Employee).Include(t => t.Project).Include(t => t.Status);
             return View(await dataContext.ToListAsync());
         }
 
@@ -37,6 +37,7 @@ namespace PresentationLayer.Controllers
             var task = await db.Tasks
                 .Include(t => t.Employee)
                 .Include(t => t.Project)
+                .Include(t => t.Status)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (task == null)
             {
@@ -51,6 +52,7 @@ namespace PresentationLayer.Controllers
         {
             ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition");
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name");
+            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace PresentationLayer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,Status")] Task task)
+        public async Task<IActionResult> Create([Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,StatusId")] Task task)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +71,7 @@ namespace PresentationLayer.Controllers
             }
             ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
+            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
             return View(task);
         }
 
@@ -87,6 +90,7 @@ namespace PresentationLayer.Controllers
             }
             ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
+            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
             return View(task);
         }
 
@@ -95,7 +99,7 @@ namespace PresentationLayer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,Status")] Task task)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,StatusId")] Task task)
         {
             if (id != task.Id)
             {
@@ -124,6 +128,7 @@ namespace PresentationLayer.Controllers
             }
             ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
+            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
             return View(task);
         }
 

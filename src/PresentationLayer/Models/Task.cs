@@ -19,7 +19,9 @@ namespace PresentationLayer.Models
         [Display(Name = "Дата окончания")]
         public DateTime CompletionDate { get; set; }
         [Display(Name = "Статус")]
-        public string Status { get; set; }
+        public int StatusId { get; set; }
+        [Display(Name = "Статус")]
+        public Status Status { get; set; }
         [Display(Name = "Проект")]
         public int ProjectId { get; set; }
         [Display(Name = "Проект")]
