@@ -8,6 +8,7 @@ namespace PresentationLayer.Models
 {
     public class Employee
     {
+        [Display(Name = "Идентификатор")]
         public int Id { get; set; }
         [Display(Name = "Имя")]
         public string Name { get; set; }
@@ -18,5 +19,20 @@ namespace PresentationLayer.Models
         [Display(Name = "Должность")]
         public string Position { get; set; }
 
+        public string FullName
+        {
+            get
+            {
+                return Surname + " " + Name + " " + MiddleName;
+            }
+        }
+
+        public string FullNameAndPosition
+        {
+            get
+            {
+                return FullName + ", " + Position;
+            }
+        }
     }
 }

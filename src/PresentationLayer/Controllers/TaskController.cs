@@ -49,7 +49,7 @@ namespace PresentationLayer.Controllers
         // GET: Task/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "Surname");
+            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition");
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
@@ -67,7 +67,7 @@ namespace PresentationLayer.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "Surname", task.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
             return View(task);
         }
@@ -85,7 +85,7 @@ namespace PresentationLayer.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "Surname", task.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
             return View(task);
         }
@@ -122,7 +122,7 @@ namespace PresentationLayer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "Surname", task.EmployeeId);
+            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
             ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
             return View(task);
         }

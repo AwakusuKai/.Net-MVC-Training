@@ -8,6 +8,7 @@ namespace PresentationLayer.Models
 {
     public class Task
     {
+        [Display(Name = "Идентификатор")]
         public int Id { get; set; }
         [Display(Name = "Название")]
         public string Name { get; set; }
@@ -19,11 +20,13 @@ namespace PresentationLayer.Models
         public DateTime CompletionDate { get; set; }
         [Display(Name = "Статус")]
         public string Status { get; set; }
+        [Display(Name = "Проект")]
         public int ProjectId { get; set; }
         [Display(Name = "Проект")]
         public Project Project { get; set; }
+        [Display(Name = "Исполнитель")]
         public int EmployeeId { get; set; }
-        [Display(Name = "Сотрудник")]
+        [Display(Name = "Исполнитель")]
         public Employee Employee { get; set; }
     }
 }

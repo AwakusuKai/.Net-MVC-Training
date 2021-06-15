@@ -8,6 +8,7 @@ namespace PresentationLayer.Models
 {
     public class Project
     {
+        [Display(Name = "Идентификатор")]
         public int Id { get; set; }
         [Display(Name = "Название")]
         public string Name { get; set; }
