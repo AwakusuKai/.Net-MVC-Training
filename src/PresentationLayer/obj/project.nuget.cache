@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "YlcYOt4/dDfHC8Soj+mzyfFgc5SMv1T7E36Z2oZ+NfV/a+wspFLJKVBuqYihY8miA0ZKIvrdwueQphV6F+j72g==",
+  "dgSpecHash": "qR7Jl6/8mKG/Efjq0CGrVqZaSl1IkAs7HysIKPXOYubDTs5INzXft4AgUyw3ib+/hBAWb/qV9hrliYTVrQ5cpQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\PresentationLayer\\PresentationLayer.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
@@ -20,9 +21,9 @@
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",
-    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.6\\microsoft.entityframeworkcore.5.0.6.nupkg.sha512",
-    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.6\\microsoft.entityframeworkcore.abstractions.5.0.6.nupkg.sha512",
-    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.6\\microsoft.entityframeworkcore.analyzers.5.0.6.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.7\\microsoft.entityframeworkcore.5.0.7.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.7\\microsoft.entityframeworkcore.abstractions.5.0.7.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.7\\microsoft.entityframeworkcore.analyzers.5.0.7.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.design\\5.0.6\\microsoft.entityframeworkcore.design.5.0.6.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.6\\microsoft.entityframeworkcore.relational.5.0.6.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\5.0.6\\microsoft.entityframeworkcore.sqlserver.5.0.6.nupkg.sha512",
@@ -55,6 +56,8 @@
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\ninject\\3.3.4\\ninject.3.3.4.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\ninject.mvc5\\3.3.0\\ninject.mvc5.3.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -98,7 +101,7 @@
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.private.datacontractserialization\\4.3.0\\system.private.datacontractserialization.4.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.private.uri\\4.3.2\\system.private.uri.4.3.2.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
-    "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection.emit\\4.3.0\\system.reflection.emit.4.3.0.nupkg.sha512",
+    "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.3.0\\system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection.emit.lightweight\\4.3.0\\system.reflection.emit.lightweight.4.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.reflection.extensions\\4.3.0\\system.reflection.extensions.4.3.0.nupkg.sha512",
@@ -136,5 +139,16 @@
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\vaskovichvi\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Ninject.MVC5 3.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Ninject.MVC5",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
@@ -13,15 +16,19 @@ namespace PresentationLayer.Controllers
 {
     public class HomeController : Controller
     {
+        IProjectService projectService;
         private DataContext db;
-        public HomeController(DataContext context)
+        public HomeController(IProjectService serv)
         {
-            db = context;
+            projectService = serv;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await db.Projects.ToListAsync());
+            IEnumerable<ProjectDTO> projectDtos = projectService.GetProjects();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, Project>()).CreateMapper();
+            var projects = mapper.Map<IEnumerable<ProjectDTO>, List<Project>>(projectDtos);
+            return View(projects);
         }
 
         public async Task<IActionResult> Details(int? id)

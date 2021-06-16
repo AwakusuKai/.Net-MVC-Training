@@ -206,3 +206,10 @@ C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\obj\De
 C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\obj\Debug\net5.0\Razor\Views\Task\Details.cshtml.g.cs
 C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\obj\Debug\net5.0\Razor\Views\Task\Edit.cshtml.g.cs
 C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\obj\Debug\net5.0\Razor\Views\Task\Index.cshtml.g.cs
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\DataAccessLayer.dll
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\DataAccessLayer.pdb
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\Ninject.dll
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\Ninject.Web.Mvc.dll
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\BusinessLogicLayer.dll
+C:\Users\vaskovichvi\Desktop\TrainTask\trainingtask\src\PresentationLayer\bin\Debug\net5.0\BusinessLogicLayer.pdb

@@ -33,10 +33,14 @@
     ".NETCoreApp,Version=v5.0": {
       "PresentationLayer/1.0.0": {
         "dependencies": {
+          "AutoMapper": "10.1.1",
+          "BusinessLogicLayer": "1.0.0",
+          "DataAccessLayer": "1.0.0",
           "EntityFramework": "6.4.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.6",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
+          "Ninject.MVC5": "3.3.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -324,6 +328,21 @@
         },
         "compile": {
           "PresentationLayer.dll": {}
+        }
+      },
+      "AutoMapper/10.1.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "System.Reflection.Emit": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.1.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.dll": {}
         }
       },
       "EntityFramework/6.4.4": {
@@ -725,10 +744,10 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/5.0.6": {
+      "Microsoft.EntityFrameworkCore/5.0.7": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.6",
-          "Microsoft.EntityFrameworkCore.Analyzers": "5.0.6",
+          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.7",
+          "Microsoft.EntityFrameworkCore.Analyzers": "5.0.7",
           "Microsoft.Extensions.Caching.Memory": "5.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Logging": "5.0.0",
@@ -738,26 +757,26 @@
         },
         "runtime": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.dll": {
-            "assemblyVersion": "5.0.6.0",
-            "fileVersion": "5.0.621.21307"
+            "assemblyVersion": "5.0.7.0",
+            "fileVersion": "5.0.721.26102"
           }
         },
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/5.0.6": {
+      "Microsoft.EntityFrameworkCore.Abstractions/5.0.7": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll": {
-            "assemblyVersion": "5.0.6.0",
-            "fileVersion": "5.0.621.21307"
+            "assemblyVersion": "5.0.7.0",
+            "fileVersion": "5.0.721.26102"
           }
         },
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/5.0.6": {},
+      "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {},
       "Microsoft.EntityFrameworkCore.Design/5.0.6": {
         "dependencies": {
           "Humanizer.Core": "2.8.26",
@@ -773,7 +792,7 @@
       },
       "Microsoft.EntityFrameworkCore.Relational/5.0.6": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "5.0.6",
+          "Microsoft.EntityFrameworkCore": "5.0.7",
           "Microsoft.Extensions.Configuration.Abstractions": "5.0.0"
         },
         "runtime": {
@@ -1104,6 +1123,32 @@
         },
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.3.4": {
+        "dependencies": {
+          "System.Reflection.Emit.ILGeneration": "4.3.0",
+          "System.Reflection.Emit.Lightweight": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ninject.dll": {
+            "assemblyVersion": "3.3.4.0",
+            "fileVersion": "3.3.4.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.3.0": {
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.0.0"
+          }
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
         }
       },
       "runtime.native.System/4.3.0": {
@@ -1523,7 +1568,7 @@
           "System.Linq": "4.3.0",
           "System.ObjectModel": "4.3.0",
           "System.Reflection": "4.3.0",
-          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.Emit": "4.7.0",
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Emit.Lightweight": "4.3.0",
           "System.Reflection.Extensions": "4.3.0",
@@ -1615,15 +1660,7 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.Reflection.Emit/4.3.0": {
-        "dependencies": {
-          "System.IO": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Reflection.Emit.ILGeneration": "4.3.0",
-          "System.Reflection.Primitives": "4.3.0",
-          "System.Runtime": "4.3.0"
-        }
-      },
+      "System.Reflection.Emit/4.7.0": {},
       "System.Reflection.Emit.ILGeneration/4.3.0": {
         "dependencies": {
           "System.Reflection": "4.3.0",
@@ -1900,7 +1937,7 @@
           "System.IO": "4.3.0",
           "System.Linq": "4.3.0",
           "System.Reflection": "4.3.0",
-          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.Emit": "4.7.0",
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Extensions": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
@@ -1912,6 +1949,30 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XmlDocument": "4.3.0"
+        }
+      },
+      "BusinessLogicLayer/1.0.0": {
+        "dependencies": {
+          "AutoMapper": "10.1.1",
+          "DataAccessLayer": "1.0.0",
+          "Ninject": "3.3.4"
+        },
+        "runtime": {
+          "BusinessLogicLayer.dll": {}
+        },
+        "compile": {
+          "BusinessLogicLayer.dll": {}
+        }
+      },
+      "DataAccessLayer/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.7"
+        },
+        "runtime": {
+          "DataAccessLayer.dll": {}
+        },
+        "compile": {
+          "DataAccessLayer.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -3608,6 +3669,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoMapper/10.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uMgbqOdu9ZG5cIOty0C85hzzayBH2i9BthnS5FlMqKtMSHDv4ts81a2jS1VFaDBVhlBeIqJ/kQKjQY95BZde9w==",
+      "path": "automapper/10.1.1",
+      "hashPath": "automapper.10.1.1.nupkg.sha512"
+    },
     "EntityFramework/6.4.4": {
       "type": "package",
       "serviceable": true,
@@ -3720,26 +3788,26 @@
       "path": "microsoft.data.sqlclient.sni.runtime/2.0.1",
       "hashPath": "microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore/5.0.6": {
+    "Microsoft.EntityFrameworkCore/5.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-uEqAprroH469aPCZm4iPA1oD8/YDqEQT9QjINkq4HWFA2kRh7Dm2lXX4uZ4MAzpcxoWCqKni2KbLqG8I0KnGqw==",
-      "path": "microsoft.entityframeworkcore/5.0.6",
-      "hashPath": "microsoft.entityframeworkcore.5.0.6.nupkg.sha512"
+      "sha512": "sha512-VAvmiQPdw0PUh3X7k9k7haVnCfQuDgyki9rq5XVk0gXJFeh+bwqPzPrY71A08O5TjnIeK9lEggXDnMuhQXUUww==",
+      "path": "microsoft.entityframeworkcore/5.0.7",
+      "hashPath": "microsoft.entityframeworkcore.5.0.7.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/5.0.6": {
+    "Microsoft.EntityFrameworkCore.Abstractions/5.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-mZCwrwaiE3dSfJZZLihPueGJ2L5/vPU8VPpz21lErYIMmtZmxfSqocXe65bLlwMQ6EO/OcW7P+tvHWPsrAzMTg==",
-      "path": "microsoft.entityframeworkcore.abstractions/5.0.6",
-      "hashPath": "microsoft.entityframeworkcore.abstractions.5.0.6.nupkg.sha512"
+      "sha512": "sha512-MM5M9vYDLUXCePUGN2WZ0MkNcNj74sIgyVR9v7tW6abRULtBWPcyZf6zLYhZYpRgPXcahcME+Koscz9kP2DxyA==",
+      "path": "microsoft.entityframeworkcore.abstractions/5.0.7",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.5.0.7.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/5.0.6": {
+    "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-PhcaRr/5NgTVjm43ITSPSYQGYCUkyuBV1gEDipLnDZI+VsYwyr2HH8pHXDUaY1E6dkZoiWNRt+XNMAsK3qDIKQ==",
-      "path": "microsoft.entityframeworkcore.analyzers/5.0.6",
-      "hashPath": "microsoft.entityframeworkcore.analyzers.5.0.6.nupkg.sha512"
+      "sha512": "sha512-ZShPEOZaQhBZqDObU3+kigEmlEGug37F8v/jpQgVs1XfHrLeXVyk+p94DBH4f+bUUHUbsEEcIbU6OhUBtWZztg==",
+      "path": "microsoft.entityframeworkcore.analyzers/5.0.7",
+      "hashPath": "microsoft.entityframeworkcore.analyzers.5.0.7.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Design/5.0.6": {
       "type": "package",
@@ -3964,6 +4032,20 @@
       "sha512": "sha512-IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "path": "newtonsoft.json/11.0.2",
       "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
+    },
+    "Ninject/3.3.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CmbWW97FfJuh4LEOVZM/spqXl4KAulRUjqeMwRd5J9rDMQArmIYaDMU3pyzXXHT062tbF0OPIMwI7tSOtprPfg==",
+      "path": "ninject/3.3.4",
+      "hashPath": "ninject.3.3.4.nupkg.sha512"
+    },
+    "Ninject.MVC5/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NLmpKSb6OXyWR17NCdeqqpMcvyW2AXlQu5SrICQLXwYYwvCgGX++GfJ3ieeyvjSDkf2q8GihPk6Jhkf+Q0/TPw==",
+      "path": "ninject.mvc5/3.3.0",
+      "hashPath": "ninject.mvc5.3.3.0.nupkg.sha512"
     },
     "runtime.native.System/4.3.0": {
       "type": "package",
@@ -4266,12 +4348,12 @@
       "path": "system.reflection/4.3.0",
       "hashPath": "system.reflection.4.3.0.nupkg.sha512"
     },
-    "System.Reflection.Emit/4.3.0": {
+    "System.Reflection.Emit/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-228FG0jLcIwTVJyz8CLFKueVqQK36ANazUManGaJHkO0icjiIypKW7YLWLIWahyIkdh5M7mV2dJepllLyA1SKg==",
-      "path": "system.reflection.emit/4.3.0",
-      "hashPath": "system.reflection.emit.4.3.0.nupkg.sha512"
+      "sha512": "sha512-VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
+      "path": "system.reflection.emit/4.7.0",
+      "hashPath": "system.reflection.emit.4.7.0.nupkg.sha512"
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
       "type": "package",
@@ -4524,6 +4606,16 @@
       "sha512": "sha512-MYoTCP7EZ98RrANESW05J5ZwskKDoN0AuZ06ZflnowE50LTpbR5yRg3tHckTVm5j/m47stuGgCrCHWePyHS70Q==",
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    },
+    "BusinessLogicLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

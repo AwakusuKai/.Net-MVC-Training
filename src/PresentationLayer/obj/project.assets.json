@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "AutoMapper/10.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "System.Reflection.Emit": "4.7.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.dll": {}
+        }
+      },
       "EntityFramework/6.4.4": {
         "type": "package",
         "dependencies": {
@@ -408,11 +421,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/5.0.6": {
+      "Microsoft.EntityFrameworkCore/5.0.7": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.6",
-          "Microsoft.EntityFrameworkCore.Analyzers": "5.0.6",
+          "Microsoft.EntityFrameworkCore.Abstractions": "5.0.7",
+          "Microsoft.EntityFrameworkCore.Analyzers": "5.0.7",
           "Microsoft.Extensions.Caching.Memory": "5.0.0",
           "Microsoft.Extensions.DependencyInjection": "5.0.1",
           "Microsoft.Extensions.Logging": "5.0.0",
@@ -427,7 +440,7 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/5.0.6": {
+      "Microsoft.EntityFrameworkCore.Abstractions/5.0.7": {
         "type": "package",
         "compile": {
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
@@ -436,7 +449,7 @@
           "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/5.0.6": {
+      "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/_._": {}
@@ -872,6 +885,28 @@
         },
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.3.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Reflection.Emit.ILGeneration": "4.3.0",
+          "System.Reflection.Emit.Lightweight": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Ninject.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
         }
       },
       "runtime.native.System/4.3.0": {
@@ -1546,20 +1581,13 @@
           "ref/netstandard1.5/System.Reflection.dll": {}
         }
       },
-      "System.Reflection.Emit/4.3.0": {
+      "System.Reflection.Emit/4.7.0": {
         "type": "package",
-        "dependencies": {
-          "System.IO": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Reflection.Emit.ILGeneration": "4.3.0",
-          "System.Reflection.Primitives": "4.3.0",
-          "System.Runtime": "4.3.0"
-        },
         "compile": {
-          "ref/netstandard1.1/_._": {}
+          "ref/netcoreapp2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.3/System.Reflection.Emit.dll": {}
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "System.Reflection.Emit.ILGeneration/4.3.0": {
@@ -1570,7 +1598,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {}
@@ -1585,7 +1613,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {}
@@ -2100,10 +2128,54 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "BusinessLogicLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "AutoMapper": "10.1.1",
+          "DataAccessLayer": "1.0.0",
+          "Ninject": "3.3.4"
+        },
+        "compile": {
+          "bin/placeholder/BusinessLogicLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BusinessLogicLayer.dll": {}
+        }
+      },
+      "DataAccessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.7"
+        },
+        "compile": {
+          "bin/placeholder/DataAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataAccessLayer.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "AutoMapper/10.1.1": {
+      "sha512": "uMgbqOdu9ZG5cIOty0C85hzzayBH2i9BthnS5FlMqKtMSHDv4ts81a2jS1VFaDBVhlBeIqJ/kQKjQY95BZde9w==",
+      "type": "package",
+      "path": "automapper/10.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "automapper.10.1.1.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net461/AutoMapper.dll",
+        "lib/net461/AutoMapper.xml",
+        "lib/netstandard2.0/AutoMapper.dll",
+        "lib/netstandard2.0/AutoMapper.xml"
+      ]
+    },
     "EntityFramework/6.4.4": {
       "sha512": "yj1+/4tci7Panu3jKDHYizxwVm0Jvm7b7m057b5h4u8NUHGCR8WIWirBTw+8EptRffwftIWPBeIRGNKD1ewEMQ==",
       "type": "package",
@@ -2700,45 +2772,45 @@
         "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.pdb"
       ]
     },
-    "Microsoft.EntityFrameworkCore/5.0.6": {
-      "sha512": "uEqAprroH469aPCZm4iPA1oD8/YDqEQT9QjINkq4HWFA2kRh7Dm2lXX4uZ4MAzpcxoWCqKni2KbLqG8I0KnGqw==",
+    "Microsoft.EntityFrameworkCore/5.0.7": {
+      "sha512": "VAvmiQPdw0PUh3X7k9k7haVnCfQuDgyki9rq5XVk0gXJFeh+bwqPzPrY71A08O5TjnIeK9lEggXDnMuhQXUUww==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/5.0.6",
+      "path": "microsoft.entityframeworkcore/5.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.dll",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.5.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.5.0.7.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/5.0.6": {
-      "sha512": "mZCwrwaiE3dSfJZZLihPueGJ2L5/vPU8VPpz21lErYIMmtZmxfSqocXe65bLlwMQ6EO/OcW7P+tvHWPsrAzMTg==",
+    "Microsoft.EntityFrameworkCore.Abstractions/5.0.7": {
+      "sha512": "MM5M9vYDLUXCePUGN2WZ0MkNcNj74sIgyVR9v7tW6abRULtBWPcyZf6zLYhZYpRgPXcahcME+Koscz9kP2DxyA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/5.0.6",
+      "path": "microsoft.entityframeworkcore.abstractions/5.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/netstandard2.1/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.5.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.5.0.7.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/5.0.6": {
-      "sha512": "PhcaRr/5NgTVjm43ITSPSYQGYCUkyuBV1gEDipLnDZI+VsYwyr2HH8pHXDUaY1E6dkZoiWNRt+XNMAsK3qDIKQ==",
+    "Microsoft.EntityFrameworkCore.Analyzers/5.0.7": {
+      "sha512": "ZShPEOZaQhBZqDObU3+kigEmlEGug37F8v/jpQgVs1XfHrLeXVyk+p94DBH4f+bUUHUbsEEcIbU6OhUBtWZztg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/5.0.6",
+      "path": "microsoft.entityframeworkcore.analyzers/5.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "lib/netstandard2.0/_._",
-        "microsoft.entityframeworkcore.analyzers.5.0.6.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.5.0.7.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
@@ -3688,6 +3760,34 @@
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "newtonsoft.json.11.0.2.nupkg.sha512",
         "newtonsoft.json.nuspec"
+      ]
+    },
+    "Ninject/3.3.4": {
+      "sha512": "CmbWW97FfJuh4LEOVZM/spqXl4KAulRUjqeMwRd5J9rDMQArmIYaDMU3pyzXXHT062tbF0OPIMwI7tSOtprPfg==",
+      "type": "package",
+      "path": "ninject/3.3.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Ninject.dll",
+        "lib/net45/Ninject.xml",
+        "lib/netstandard2.0/Ninject.dll",
+        "lib/netstandard2.0/Ninject.xml",
+        "ninject.3.3.4.nupkg.sha512",
+        "ninject.nuspec"
+      ]
+    },
+    "Ninject.MVC5/3.3.0": {
+      "sha512": "NLmpKSb6OXyWR17NCdeqqpMcvyW2AXlQu5SrICQLXwYYwvCgGX++GfJ3ieeyvjSDkf2q8GihPk6Jhkf+Q0/TPw==",
+      "type": "package",
+      "path": "ninject.mvc5/3.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Ninject.Web.Mvc.dll",
+        "lib/net45/Ninject.Web.Mvc.xml",
+        "ninject.mvc5.3.3.0.nupkg.sha512",
+        "ninject.mvc5.nuspec"
       ]
     },
     "runtime.native.System/4.3.0": {
@@ -5518,26 +5618,34 @@
         "system.reflection.nuspec"
       ]
     },
-    "System.Reflection.Emit/4.3.0": {
-      "sha512": "228FG0jLcIwTVJyz8CLFKueVqQK36ANazUManGaJHkO0icjiIypKW7YLWLIWahyIkdh5M7mV2dJepllLyA1SKg==",
+    "System.Reflection.Emit/4.7.0": {
+      "sha512": "VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
       "type": "package",
-      "path": "system.reflection.emit/4.3.0",
+      "path": "system.reflection.emit/4.7.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
         "lib/MonoAndroid10/_._",
-        "lib/monotouch10/_._",
+        "lib/MonoTouch10/_._",
         "lib/net45/_._",
         "lib/netcore50/System.Reflection.Emit.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.1/System.Reflection.Emit.dll",
+        "lib/netstandard1.1/System.Reflection.Emit.xml",
         "lib/netstandard1.3/System.Reflection.Emit.dll",
+        "lib/netstandard2.0/System.Reflection.Emit.dll",
+        "lib/netstandard2.0/System.Reflection.Emit.xml",
+        "lib/netstandard2.1/_._",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
         "ref/net45/_._",
+        "ref/netcoreapp2.0/_._",
         "ref/netstandard1.1/System.Reflection.Emit.dll",
         "ref/netstandard1.1/System.Reflection.Emit.xml",
         "ref/netstandard1.1/de/System.Reflection.Emit.xml",
@@ -5549,9 +5657,19 @@
         "ref/netstandard1.1/ru/System.Reflection.Emit.xml",
         "ref/netstandard1.1/zh-hans/System.Reflection.Emit.xml",
         "ref/netstandard1.1/zh-hant/System.Reflection.Emit.xml",
+        "ref/netstandard2.0/System.Reflection.Emit.dll",
+        "ref/netstandard2.0/System.Reflection.Emit.xml",
+        "ref/netstandard2.1/_._",
+        "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
-        "system.reflection.emit.4.3.0.nupkg.sha512",
-        "system.reflection.emit.nuspec"
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/aot/lib/netcore50/System.Reflection.Emit.dll",
+        "runtimes/aot/lib/netcore50/System.Reflection.Emit.xml",
+        "system.reflection.emit.4.7.0.nupkg.sha512",
+        "system.reflection.emit.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
@@ -7451,14 +7569,28 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "BusinessLogicLayer/1.0.0": {
+      "type": "project",
+      "path": "../BusinessLogicLayer/BusinessLogicLayer.csproj",
+      "msbuildProject": "../BusinessLogicLayer/BusinessLogicLayer.csproj"
+    },
+    "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../DataAccessLayer/DataAccessLayer.csproj",
+      "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "AutoMapper >= 10.1.1",
+      "BusinessLogicLayer >= 1.0.0",
+      "DataAccessLayer >= 1.0.0",
       "EntityFramework >= 6.4.4",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.6",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
+      "Ninject.MVC5 >= 3.3.0"
     ]
   },
   "packageFolders": {
@@ -7487,7 +7619,14 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+              "projectPath": "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+            },
+            "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\vaskovichvi\\Desktop\\TrainTask\\trainingtask\\src\\DataAccessLayer\\DataAccessLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -7500,6 +7639,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[10.1.1, )"
+          },
           "EntityFramework": {
             "target": "Package",
             "version": "[6.4.4, )"
@@ -7517,6 +7660,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[5.0.2, )"
+          },
+          "Ninject.MVC5": {
+            "target": "Package",
+            "version": "[3.3.0, )"
           }
         },
         "imports": [
@@ -7540,5 +7687,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Ninject.MVC5 3.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net5.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Ninject.MVC5",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
 }
