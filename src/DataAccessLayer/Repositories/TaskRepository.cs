@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,9 @@ using System.Text;
 
 namespace DataAccessLayer.Repositories
 {
-    public class TaskRepository : IRepository<Task>  
+    public class TaskRepository //: IRepository<Task>  
     {
-        private DataContext db;
+       /* private DataContext db;
         public TaskRepository(DataContext context)
         {
             this.db = context;
@@ -40,6 +40,6 @@ namespace DataAccessLayer.Repositories
             Task task = db.Tasks.Find(id);
             if (task != null)
                 db.Tasks.Remove(task);
-        }
+        }*/
     }
 }

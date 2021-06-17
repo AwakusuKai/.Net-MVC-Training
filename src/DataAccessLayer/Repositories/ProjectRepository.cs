@@ -1,35 +1,67 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace DataAccessLayer.Repositories
 {
-    class ProjectRepository : IRepository<Project>
+    public class ProjectRepository : IRepository<Project>
     {
-        private DataContext db;
-        public ProjectRepository(DataContext context)
+
+        private readonly string connectionString = "Server=QWS-PRACRDI-02\\SQLEXPRESS;Database=projectsdb;Integrated Security=True;";
+        public ProjectRepository()
         {
-            this.db = context;
         }
 
         public IEnumerable<Project> GetAll()
         {
-            return db.Projects;
-        }
-
-        public Project Get(int id)
-        {
-            return db.Projects.Find(id);
+            
+            List<Project> projects = new List<Project>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetProjects", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var project = new Project()
+                    {
+                        Id = Convert.ToInt32(rdr["Id"]),
+                        Name = rdr["Name"].ToString(),
+                        ShortName = rdr["ShortName"].ToString(),
+                        Description = rdr["Description"].ToString()
+                    };
+                    projects.Add(project);
+                }
+            }
+            return projects;
+                
         }
 
         public void Create(Project project)
         {
-            db.Projects.Add(project);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spCreateProject", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Name", project.Name);
+                cmd.Parameters.AddWithValue("@ShortName", project.ShortName);
+                cmd.Parameters.AddWithValue("@Description", project.Description);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        /*public Project Get(int id)
+        {
+            return db.Projects.Find(id);
         }
 
         public void Update(Project project)
@@ -47,6 +79,6 @@ namespace DataAccessLayer.Repositories
             Project project = db.Projects.Find(id);
             if (project != null)
                 db.Projects.Remove(project);
-        }
+        }*/
     }
 }

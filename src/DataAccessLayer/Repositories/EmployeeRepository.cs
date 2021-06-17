@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    class EmployeeRepository : IRepository<Employee>
+    class EmployeeRepository //: IRepository<Employee>
     {
-        private DataContext db;
+        /*private DataContext db;
         public EmployeeRepository(DataContext context)
         {
             this.db = context;
@@ -47,7 +47,7 @@ namespace DataAccessLayer.Repositories
             Employee employee = db.Employees.Find(id);
             if (employee != null)
                 db.Employees.Remove(employee);
-        }
+        }*/
 
     }
 }

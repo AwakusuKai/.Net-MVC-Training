@@ -1,6 +1,5 @@
 ﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    class StatusRepository : IRepository<Status>
+    class StatusRepository //: IRepository<Status>
     {
-        private DataContext db;
+        /*private DataContext db;
         public StatusRepository(DataContext context)
         {
             this.db = context;
@@ -47,6 +46,6 @@ namespace DataAccessLayer.Repositories
             Status status = db.Statuses.Find(id);
             if (status != null)
                 db.Statuses.Remove(status);
-        }
+        }*/
     }
 }

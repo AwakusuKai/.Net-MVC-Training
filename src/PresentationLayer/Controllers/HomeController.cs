@@ -17,7 +17,7 @@ namespace PresentationLayer.Controllers
     public class HomeController : Controller
     {
         IProjectService projectService;
-        private DataContext db;
+        //private DataContext db;
         public HomeController(IProjectService serv)
         {
             projectService = serv;
@@ -31,7 +31,25 @@ namespace PresentationLayer.Controllers
             return View(projects);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Project projectModel)
+        {
+            if (ModelState.IsValid)
+            {
+                ProjectDTO projectDTO = new ProjectDTO { Name = projectModel.Name, ShortName = projectModel.ShortName, Description = projectModel.Description };
+                projectService.CreateProject(projectDTO);
+                return RedirectToAction("Index");
+            }
+            return View(projectModel);
+        }
+
+        /*public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -116,6 +134,6 @@ namespace PresentationLayer.Controllers
             }
             return View(project);
             
-        }
+        }*/
     }
 }

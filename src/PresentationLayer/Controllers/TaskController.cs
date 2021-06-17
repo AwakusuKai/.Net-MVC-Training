@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace PresentationLayer.Controllers
 {
     public class TaskController : Controller
     {
-        private readonly DataContext db;
+        /*private readonly DataContext db;
 
         public TaskController(DataContext context)
         {
@@ -166,6 +167,6 @@ namespace PresentationLayer.Controllers
         private bool TaskExists(int id)
         {
             return db.Tasks.Any(e => e.Id == id);
-        }
+        }*/
     }
 }

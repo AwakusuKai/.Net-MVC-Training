@@ -14,13 +14,13 @@ namespace BusinessLogicLayer.Services
 {
     public class ProjectService: IProjectService
     {
-        IUnitOfWork Database { get; set; }
-        public ProjectService(IUnitOfWork unitOfWork)
+        IRepository<Project> ProjectRepository { get; set; }
+        public ProjectService(IRepository<Project> projectRepository)
         {
-            Database = unitOfWork;
+            ProjectRepository = projectRepository;
         }
 
-        public void MakeProject(ProjectDTO projectDTO)
+        public void CreateProject(ProjectDTO projectDTO)
         {
             Project project = new Project
             {
@@ -28,27 +28,27 @@ namespace BusinessLogicLayer.Services
                 ShortName = projectDTO.ShortName,
                 Description = projectDTO.Description
             };
-            Database.Projects.Create(project);
-            Database.Save();
+            ProjectRepository.Create(project);
         }
         public IEnumerable<ProjectDTO> GetProjects()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Project, ProjectDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(Database.Projects.GetAll());
+            return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(ProjectRepository.GetAll());
         }
-        public ProjectDTO GetProject(int? id)
+        /*public ProjectDTO GetProject(int? id)
         {
             if (id == null)
                 throw new ValidationException("Не установлено id проекта", "");
-            var project = Database.Projects.Get(id.Value);
+            var project = ProjectRepository.Get(id.Value);
             if (project == null)
                 throw new ValidationException("Проект не найден", "");
             return new ProjectDTO { Name = project.Name, Id = project.Id, ShortName = project.ShortName};
-        }
-        public void Dispose()
+        }*/
+
+        /*public void Dispose()
         {
-            Database.Dispose();
-        }
+            ProjectRepository.Dispose();
+        }*/
 
     }
 }
