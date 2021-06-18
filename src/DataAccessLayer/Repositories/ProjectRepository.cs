@@ -67,6 +67,7 @@ namespace DataAccessLayer.Repositories
         public Project GetById(int id)
         {
             Project project = new Project();
+            bool isFind = false;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("spGetProjectById", con);
@@ -76,12 +77,18 @@ namespace DataAccessLayer.Repositories
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
+                    isFind = true;
                     project.Id = Convert.ToInt32(rdr["Id"]);
                     project.Name = rdr["Name"].ToString();
                     project.ShortName = rdr["ShortName"].ToString();
                     project.Description = rdr["Description"].ToString();
                 }
-                return project;
+                if (isFind)
+                {
+                    return project;
+                }
+                return null;
+                
             }
         }
         

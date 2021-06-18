@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Project = DataAccessLayer.Entities.Project;
 using DataAccessLayer.Configuration;
+using Employee = DataAccessLayer.Entities.Employee;
 
 namespace PresentationLayer
 {
@@ -41,6 +42,8 @@ namespace PresentationLayer
             services.AddControllersWithViews();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddScoped<IRepository<Project>, ProjectRepository>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddScoped<IRepository<Employee>, EmployeeRepository>();
             //services.AddScoped<IUnitOfWork, EFUnitOfWork>();
 
 

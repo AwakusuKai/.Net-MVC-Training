@@ -51,8 +51,13 @@ namespace PresentationLayer.Controllers
         public IActionResult Details(int id)
         {
             ProjectDTO projectDTO = projectService.GetProject(id);
-            Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
-            return View(project);
+            if(projectDTO != null)
+            {
+                Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
+                return View(project);
+            }
+            return NotFound();
+            
         }
 
         [HttpGet]

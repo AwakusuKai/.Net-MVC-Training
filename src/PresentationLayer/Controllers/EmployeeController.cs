@@ -6,38 +6,28 @@ using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.DTO;
 
 namespace PresentationLayer.Controllers
 {
     public class EmployeeController : Controller
     {
-        /*private readonly DataContext db;
-
-        public EmployeeController(DataContext context)
+        IEmployeeService employeeService;
+        public EmployeeController(IEmployeeService serv)
         {
-            db = context;
+            employeeService = serv;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await db.Employees.ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            IEnumerable<EmployeeDTO> employeesDtos = employeeService.GetEmployees();
+            List<Employee> employees = new List<Employee>();
+            foreach (EmployeeDTO employeeDTO in employeesDtos)
             {
-                return NotFound();
+                employees.Add(new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName , Position = employeeDTO.Position});
             }
-
-            var employeeModel = await db.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employeeModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(employeeModel);
+            return View(employees);
         }
 
         public IActionResult Create()
@@ -45,103 +35,74 @@ namespace PresentationLayer.Controllers
             return View();
         }
 
-        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,MiddleName,Position")] Employee employeeModel)
+        public IActionResult Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Add(employeeModel);
-                await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                EmployeeDTO employeeDTO = new EmployeeDTO { Name = employee.Name, Surname = employee.Surname, MiddleName = employee.MiddleName, Position = employee.Position };
+                employeeService.CreateEmployee(employeeDTO);
+                return RedirectToAction("Index");
             }
-            return View(employeeModel);
+            return View(employee);
         }
 
-        // GET: Employee/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
+            EmployeeDTO employeeDTO = employeeService.GetEmployee(id);
+            if (employeeDTO != null)
             {
-                return NotFound();
+                Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
+                return View(employee);
             }
+            return NotFound();
 
-            var employeeModel = await db.Employees.FindAsync(id);
-            if (employeeModel == null)
-            {
-                return NotFound();
-            }
-            return View(employeeModel);
         }
 
-        // POST: Employee/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpGet]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            EmployeeDTO employeeDTO = employeeService.GetEmployee(id);
+            if (employeeDTO == null)
+            {
+                return NotFound();
+            }
+            Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
+            return View(employee);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,MiddleName,Position")] Employee employeeModel)
+        public IActionResult Delete(int id)
         {
-            if (id != employeeModel.Id)
-            {
-                return NotFound();
-            }
+            employeeService.DeleteEmployee(id);
+            return RedirectToAction("Index");
+        }
 
+        public IActionResult Edit(int? id)
+        {
+            if (id != null)
+            {
+                EmployeeDTO employeeDTO = employeeService.GetEmployee(id);
+                if (employeeDTO != null)
+                {
+                    Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
+                    return View(employee);
+                }
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public IActionResult Edit(Employee employee)
+        {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.Update(employeeModel);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeModelExists(employeeModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                EmployeeDTO employeeDTO = new EmployeeDTO { Id = employee.Id, Name = employee.Name, Surname = employee.Surname, MiddleName = employee.MiddleName, Position = employee.Position };
+                employeeService.UpdateEmployee(employeeDTO);
+                return RedirectToAction("Index");
             }
-            return View(employeeModel);
+            return View(employee);
+
         }
-
-        // GET: Employee/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employeeModel = await db.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employeeModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(employeeModel);
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var employeeModel = await db.Employees.FindAsync(id);
-            db.Employees.Remove(employeeModel);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool EmployeeModelExists(int id)
-        {
-            return db.Employees.Any(e => e.Id == id);
-        }*/
     }
 }

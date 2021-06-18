@@ -50,7 +50,11 @@ namespace BusinessLogicLayer.Services
         public ProjectDTO GetProject(int? id)
         {
             var project = ProjectRepository.GetById(id.Value);
-            return new ProjectDTO { Name = project.Name, Id = project.Id, ShortName = project.ShortName, Description = project.Description};
+            if(project != null)
+            {
+                return new ProjectDTO { Name = project.Name, Id = project.Id, ShortName = project.ShortName, Description = project.Description };
+            }
+            return null;
         }
 
         public void DeleteProject(int id)

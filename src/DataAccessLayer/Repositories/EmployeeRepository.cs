@@ -1,53 +1,129 @@
-﻿using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Configuration;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    class EmployeeRepository //: IRepository<Employee>
+    public class EmployeeRepository : IRepository<Employee>
     {
-        /*private DataContext db;
-        public EmployeeRepository(DataContext context)
+        private readonly IOptions<AppConfig> config;
+        private string connectionString
         {
-            this.db = context;
+            get
+            {
+                return config.Value.DefaultConnection;
+            }
+        }
+        public EmployeeRepository(IOptions<AppConfig> options)
+        {
+            config = options;
         }
 
         public IEnumerable<Employee> GetAll()
         {
-            return db.Employees;
-        }
 
-        public Employee Get(int id)
-        {
-            return db.Employees.Find(id);
+            List<Employee> employees = new List<Employee>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetEmployees", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    var employee = new Employee()
+                    {
+                        Id = Convert.ToInt32(rdr["Id"]),
+                        Name = rdr["Name"].ToString(),
+                        Surname = rdr["Surname"].ToString(),
+                        MiddleName = rdr["Surname"].ToString(),
+                        Position = rdr["Position"].ToString()
+                    };
+                    employees.Add(employee);
+                }
+            }
+            return employees;
+
         }
 
         public void Create(Employee employee)
         {
-            db.Employees.Add(employee);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spCreateEmployee", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Name", employee.Name);
+                cmd.Parameters.AddWithValue("@Surname", employee.Surname);
+                cmd.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
+                cmd.Parameters.AddWithValue("@Position", employee.Position);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Employee GetById(int id)
+        {
+            Employee employee = new Employee();
+            bool isFind = false;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetEmployeeById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    isFind = true;
+                    employee.Id = Convert.ToInt32(rdr["Id"]);
+                    employee.Name = rdr["Name"].ToString();
+                    employee.Surname = rdr["Surname"].ToString();
+                    employee.MiddleName = rdr["MiddleName"].ToString();
+                    employee.Position = rdr["Position"].ToString();
+                }
+                if (isFind)
+                {
+                    return employee;
+                }
+                return null;
+
+            }
         }
 
         public void Update(Employee employee)
         {
-            db.Entry(employee).State = EntityState.Modified;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spUpdateEmployee", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@Id", employee.Id);
+                cmd.Parameters.AddWithValue("@Name", employee.Name);
+                cmd.Parameters.AddWithValue("@Surname", employee.Surname);
+                cmd.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
+                cmd.Parameters.AddWithValue("@Position", employee.Position);
+                cmd.ExecuteNonQuery();
+            }
         }
-
-        public IEnumerable<Employee> Find(Func<Employee, Boolean> predicate)
-        {
-            return db.Employees.Where(predicate).ToList();
-        }
-
         public void Delete(int id)
         {
-            Employee employee = db.Employees.Find(id);
-            if (employee != null)
-                db.Employees.Remove(employee);
-        }*/
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spDeleteEmployeeById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
 
     }
 }
