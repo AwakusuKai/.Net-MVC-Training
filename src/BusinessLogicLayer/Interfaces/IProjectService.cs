@@ -10,8 +10,9 @@ namespace BusinessLogicLayer.Interfaces
     public interface IProjectService
     {
         void CreateProject(ProjectDTO projectDTO);
+        void UpdateProject(ProjectDTO projectDTO);
+        void DeleteProject(int id);
         IEnumerable<ProjectDTO> GetProjects();
-        //ProjectDTO GetProject(int? id);
-        //void Dispose();
+        ProjectDTO GetProject(int? id);
     }
 }

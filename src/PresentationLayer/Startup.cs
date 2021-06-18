@@ -1,4 +1,3 @@
-using BusinessLogicLayer.Infrastructure;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities;
@@ -20,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Project = DataAccessLayer.Entities.Project;
+using DataAccessLayer.Configuration;
 
 namespace PresentationLayer
 {
@@ -38,7 +38,7 @@ namespace PresentationLayer
             string connection = Configuration.GetConnectionString("DefaultConnection");
             /*services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(connection));*/
-
+            services.Configure<AppConfig>(Configuration.GetSection("ConnectionStrings"));
             services.AddControllersWithViews();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddScoped<IRepository<Project>, ProjectRepository>();

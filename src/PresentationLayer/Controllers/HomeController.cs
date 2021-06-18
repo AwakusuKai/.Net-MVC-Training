@@ -17,7 +17,6 @@ namespace PresentationLayer.Controllers
     public class HomeController : Controller
     {
         IProjectService projectService;
-        //private DataContext db;
         public HomeController(IProjectService serv)
         {
             projectService = serv;
@@ -49,91 +48,57 @@ namespace PresentationLayer.Controllers
             return View(projectModel);
         }
 
-        /*public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var projectModel = await db.Projects
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (projectModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(projectModel);
-        }
-
-        public IActionResult Create()
-        {
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(Project projectModel)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Projects.Add(projectModel);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(projectModel);
+            ProjectDTO projectDTO = projectService.GetProject(id);
+            Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
+            return View(project);
         }
 
         [HttpGet]
         [ActionName("Delete")]
-        public async Task<IActionResult> ConfirmDelete(int? id)
+        public IActionResult ConfirmDelete(int id)
         {
-            if (id != null)
+            ProjectDTO projectDTO = projectService.GetProject(id);
+            if (projectDTO == null)
             {
-                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
-                if (project != null)
-                    return View(project);
+                return NotFound();
             }
-            return NotFound();
+            Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
+            return View(project);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int id)
+        {
+            projectService.DeleteProject(id);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int? id)
         {
             if (id != null)
             {
-                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
-                if (project != null)
+                ProjectDTO projectDTO = projectService.GetProject(id);
+                if (projectDTO != null)
                 {
-                    db.Projects.Remove(project);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
+                    return View(project);
                 }
             }
             return NotFound();
         }
-
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id != null)
-            {
-                Project project = await db.Projects.FirstOrDefaultAsync(p => p.Id == id);
-                if (project != null)
-                    return View(project);
-            }
-            return NotFound();
-        }
         [HttpPost]
-        public async Task<IActionResult> Edit(Project project)
+        public IActionResult Edit(Project project)
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Update(project);
-                await db.SaveChangesAsync();
+                ProjectDTO projectDTO = new ProjectDTO { Id = project.Id, Name = project.ShortName, ShortName = project.ShortName, Description = project.Description };
+                projectService.UpdateProject(projectDTO);
                 return RedirectToAction("Index");
             }
             return View(project);
             
-        }*/
+        }
     }
 }

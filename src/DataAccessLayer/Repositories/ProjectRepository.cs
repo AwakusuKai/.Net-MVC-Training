@@ -1,11 +1,10 @@
-﻿using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Configuration;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -13,10 +12,17 @@ namespace DataAccessLayer.Repositories
 {
     public class ProjectRepository : IRepository<Project>
     {
-
-        private readonly string connectionString = "Server=QWS-PRACRDI-02\\SQLEXPRESS;Database=projectsdb;Integrated Security=True;";
-        public ProjectRepository()
+        private readonly IOptions<AppConfig> config;
+        private  string connectionString
         {
+            get
+            {
+                return config.Value.DefaultConnection;
+            }
+        }
+        public ProjectRepository(IOptions<AppConfig> options)
+        {
+            config = options;
         }
 
         public IEnumerable<Project> GetAll()
@@ -58,27 +64,52 @@ namespace DataAccessLayer.Repositories
                 cmd.ExecuteNonQuery();
             }
         }
-
-        /*public Project Get(int id)
+        
+        public Project GetById(int id)
         {
-            return db.Projects.Find(id);
+            Project project = new Project();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetProjectById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    project.Id = Convert.ToInt32(rdr["Id"]);
+                    project.Name = rdr["Name"].ToString();
+                    project.ShortName = rdr["ShortName"].ToString();
+                    project.Description = rdr["Description"].ToString();
+                }
+                return project;
+            }
         }
-
+        
         public void Update(Project project)
         {
-            db.Entry(project).State = EntityState.Modified;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spUpdateProject", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@Id", project.Id);
+                cmd.Parameters.AddWithValue("@Name", project.Name);
+                cmd.Parameters.AddWithValue("@ShortName", project.ShortName);
+                cmd.Parameters.AddWithValue("@Description", project.Description);
+                cmd.ExecuteNonQuery();
+            }
         }
-
-        public IEnumerable<Project> Find(Func<Project, Boolean> predicate)
-        {
-            return db.Projects.Where(predicate).ToList();
-        }
-
         public void Delete(int id)
         {
-            Project project = db.Projects.Find(id);
-            if (project != null)
-                db.Projects.Remove(project);
-        }*/
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("spDeleteProjectById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

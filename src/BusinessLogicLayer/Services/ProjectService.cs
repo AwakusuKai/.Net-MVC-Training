@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.Infrastructure;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BusinessLogicLayer.Services
 {
@@ -35,20 +31,28 @@ namespace BusinessLogicLayer.Services
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Project, ProjectDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(ProjectRepository.GetAll());
         }
-        /*public ProjectDTO GetProject(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("Не установлено id проекта", "");
-            var project = ProjectRepository.Get(id.Value);
-            if (project == null)
-                throw new ValidationException("Проект не найден", "");
-            return new ProjectDTO { Name = project.Name, Id = project.Id, ShortName = project.ShortName};
-        }*/
 
-        /*public void Dispose()
+        public void UpdateProject(ProjectDTO projectDTO)
         {
-            ProjectRepository.Dispose();
-        }*/
+            Project project = new Project
+            {
+                Id = projectDTO.Id,
+                Name = projectDTO.Name,
+                ShortName = projectDTO.ShortName,
+                Description = projectDTO.Description
+            };
+            ProjectRepository.Update(project);
+        }
+        public ProjectDTO GetProject(int? id)
+        {
+            var project = ProjectRepository.GetById(id.Value);
+            return new ProjectDTO { Name = project.Name, Id = project.Id, ShortName = project.ShortName, Description = project.Description};
+        }
+
+        public void DeleteProject(int id)
+        {
+            ProjectRepository.Delete(id);
+        }
 
     }
 }
