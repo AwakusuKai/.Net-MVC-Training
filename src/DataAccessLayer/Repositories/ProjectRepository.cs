@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Configuration;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using PresentationLayer.Models;
 
 namespace PresentationLayer.Controllers

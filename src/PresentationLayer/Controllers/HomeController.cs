@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
 using System;
 using System.Collections.Generic;
-
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,8 +22,11 @@ namespace PresentationLayer.Controllers
         public IActionResult Index()
         {
             IEnumerable<ProjectDTO> projectDtos = projectService.GetProjects();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, Project>()).CreateMapper();
-            var projects = mapper.Map<IEnumerable<ProjectDTO>, List<Project>>(projectDtos);
+            List<Project> projects = new List<Project>();
+            foreach (ProjectDTO projectDTO in projectDtos)
+            {
+                projects.Add(new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description });
+            }
             return View(projects);
         }
 
@@ -37,15 +37,15 @@ namespace PresentationLayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Project projectModel)
+        public IActionResult Create(Project project)
         {
             if (ModelState.IsValid)
             {
-                ProjectDTO projectDTO = new ProjectDTO { Name = projectModel.Name, ShortName = projectModel.ShortName, Description = projectModel.Description };
+                ProjectDTO projectDTO = new ProjectDTO { Name = project.Name, ShortName = project.ShortName, Description = project.Description };
                 projectService.CreateProject(projectDTO);
                 return RedirectToAction("Index");
             }
-            return View(projectModel);
+            return View(project);
         }
 
         public IActionResult Details(int id)
@@ -93,7 +93,7 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProjectDTO projectDTO = new ProjectDTO { Id = project.Id, Name = project.ShortName, ShortName = project.ShortName, Description = project.Description };
+                ProjectDTO projectDTO = new ProjectDTO { Id = project.Id, Name = project.Name, ShortName = project.ShortName, Description = project.Description };
                 projectService.UpdateProject(projectDTO);
                 return RedirectToAction("Index");
             }

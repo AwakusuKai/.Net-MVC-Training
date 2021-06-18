@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
@@ -28,8 +27,13 @@ namespace BusinessLogicLayer.Services
         }
         public IEnumerable<ProjectDTO> GetProjects()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Project, ProjectDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(ProjectRepository.GetAll());
+            List<ProjectDTO> projectDTOs = new List<ProjectDTO>();
+            foreach(Project project in ProjectRepository.GetAll())
+            {
+                projectDTOs.Add(new ProjectDTO { Id = project.Id, Name = project.Name, ShortName = project.ShortName, Description = project.Description });
+            }
+
+            return projectDTOs;
         }
 
         public void UpdateProject(ProjectDTO projectDTO)
