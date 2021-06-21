@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Configuration;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.SQL;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace DataAccessLayer.Repositories
     public class ProjectRepository : IRepository<Project>
     {
         private readonly IOptions<AppConfig> config;
-        private  string connectionString
+        private string connectionString
         {
             get
             {
@@ -26,8 +27,8 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Project> GetAll()
         {
-            
-            List<Project> projects = new List<Project>();
+            return SQLCall.GetAllRequest<Project>(connectionString, "spGetProjects");
+            /*List<Project> projects = new List<Project>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("spGetProjects", con);
@@ -46,13 +47,14 @@ namespace DataAccessLayer.Repositories
                     projects.Add(project);
                 }
             }
-            return projects;
-                
+            return projects;*/
+
         }
 
         public void Create(Project project)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.CreateRequest<Project>(connectionString, "spCreateProject", project);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spCreateProject", con);
                 con.Open();
@@ -61,12 +63,13 @@ namespace DataAccessLayer.Repositories
                 cmd.Parameters.AddWithValue("@ShortName", project.ShortName);
                 cmd.Parameters.AddWithValue("@Description", project.Description);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
-        
+
         public Project GetById(int id)
         {
-            Project project = new Project();
+            return SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", id);
+            /*Project project = new Project();
             bool isFind = false;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -89,12 +92,13 @@ namespace DataAccessLayer.Repositories
                 }
                 return null;
                 
-            }
+            }*/
         }
-        
+
         public void Update(Project project)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.UpdateRequest<Project>(connectionString, "spUpdateProject", project);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spUpdateProject", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -104,18 +108,19 @@ namespace DataAccessLayer.Repositories
                 cmd.Parameters.AddWithValue("@ShortName", project.ShortName);
                 cmd.Parameters.AddWithValue("@Description", project.Description);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
         public void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.DeleteRequest(connectionString, "spDeleteProjectById", id);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spDeleteProjectById", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 cmd.Parameters.AddWithValue("@Id", id);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Configuration;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.SQL;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,8 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Employee> GetAll()
         {
-
-            List<Employee> employees = new List<Employee>();
+            return SQLCall.GetAllRequest<Employee>(connectionString, "spGetEmployees");
+            /*List<Employee> employees = new List<Employee>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("spGetEmployees", con);
@@ -50,13 +51,14 @@ namespace DataAccessLayer.Repositories
                     employees.Add(employee);
                 }
             }
-            return employees;
+            return employees;*/
 
         }
 
         public void Create(Employee employee)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.CreateRequest<Employee>(connectionString, "spCreateEmployee", employee);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spCreateEmployee", con);
                 con.Open();
@@ -66,12 +68,13 @@ namespace DataAccessLayer.Repositories
                 cmd.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
                 cmd.Parameters.AddWithValue("@Position", employee.Position);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
 
         public Employee GetById(int id)
         {
-            Employee employee = new Employee();
+            return SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", id);
+            /*Employee employee = new Employee();
             bool isFind = false;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -95,12 +98,13 @@ namespace DataAccessLayer.Repositories
                 }
                 return null;
 
-            }
+            }*/
         }
 
         public void Update(Employee employee)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.UpdateRequest<Employee>(connectionString, "spUpdateEmployee", employee);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spUpdateEmployee", con);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -111,18 +115,19 @@ namespace DataAccessLayer.Repositories
                 cmd.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
                 cmd.Parameters.AddWithValue("@Position", employee.Position);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
         public void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            SQLCall.DeleteRequest(connectionString, "spDeleteEmployeeById", id);
+            /*using (SqlConnection con = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("spDeleteEmployeeById", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 cmd.Parameters.AddWithValue("@Id", id);
                 cmd.ExecuteNonQuery();
-            }
+            }*/
         }
 
     }
