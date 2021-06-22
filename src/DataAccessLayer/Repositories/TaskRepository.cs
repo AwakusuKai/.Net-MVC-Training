@@ -1,6 +1,8 @@
-﻿using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Configuration;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-
+using DataAccessLayer.SQL;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +12,55 @@ namespace DataAccessLayer.Repositories
 {
     public class TaskRepository //: IRepository<Task>  
     {
-       /* private DataContext db;
-        public TaskRepository(DataContext context)
+        private readonly IOptions<AppConfig> config;
+        private string connectionString
         {
-            this.db = context;
+            get
+            {
+                return config.Value.DefaultConnection;
+            }
         }
+        public TaskRepository(IOptions<AppConfig> options)
+        {
+            config = options;
+        }
+
         public IEnumerable<Task> GetAll()
         {
-            return db.Tasks.Include(o => o.Project).Include(o => o.Status).Include(o => o.Employee);
+            IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetProjects"); //заполнить все, кроме навигационных свойств
+            foreach (Task task in tasks)//затем заполнить все навигационные свойства
+            {
+                task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
+                task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
+                task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
+            }
+            return tasks;
         }
-        public Task Get(int id)
-        {
-            return db.Tasks.Find(id);
-        }
+
         public void Create(Task task)
         {
-            db.Tasks.Add(task);
+            SQLCall.CreateRequest<Task>(connectionString, "spCreateTask", task);
         }
+
+        public Task GetById(int id)
+        {
+            Task task = SQLCall.GetByIdRequest<Task>(connectionString, "spGetTaskById", id);
+            if (task != null)
+            {
+                task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
+                task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
+                task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
+            }
+            return task;
+        }
+
         public void Update(Task task)
         {
-            db.Entry(task).State = EntityState.Modified;
-        }
-        public IEnumerable<Task> Find(Func<Task, Boolean> predicate)
-        {
-            return db.Tasks.Include(o => o.Project).Include(o => o.Status).Include(o => o.Employee).Where(predicate).ToList();
+            SQLCall.UpdateRequest<Task>(connectionString, "spUpdateTask", task);
         }
         public void Delete(int id)
         {
-            Task task = db.Tasks.Find(id);
-            if (task != null)
-                db.Tasks.Remove(task);
-        }*/
+            SQLCall.DeleteRequest(connectionString, "spDeleteTaskById", id);
+        }
     }
 }

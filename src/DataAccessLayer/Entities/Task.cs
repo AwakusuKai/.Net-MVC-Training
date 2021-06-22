@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +15,13 @@ namespace DataAccessLayer.Entities
         public DateTime StartDate { get; set; }
         public DateTime CompletionDate { get; set; }
         public int StatusId { get; set; }
+        [NavigationProperty]
         public Status Status { get; set; }
         public int ProjectId { get; set; }
+        [NavigationProperty]
         public Project Project { get; set; }
         public int EmployeeId { get; set; }
+        [NavigationProperty]
         public Employee Employee { get; set; }
     }
 }

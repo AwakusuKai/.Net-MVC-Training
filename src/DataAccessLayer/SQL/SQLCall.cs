@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,12 +26,25 @@ namespace DataAccessLayer.SQL
                     var result = new T();
                     foreach (PropertyInfo property in typeof(T).GetProperties())
                     {
-                        property.SetValue(result, Convert.ChangeType(rdr[property.Name], property.PropertyType), null);
+                        if (!IsNavigationProperty(property))
+                            property.SetValue(result, Convert.ChangeType(rdr[property.Name], property.PropertyType), null);
                     }
                     resultList.Add(result);
                 }
             }
             return resultList;
+        }
+
+        private static bool IsNavigationProperty(PropertyInfo property)
+        {
+            foreach (Attribute atr in property.GetCustomAttributes())
+            {
+                if (atr is NavigationPropertyAttribute)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void CreateRequest<T>(string connectionString, string command, T obj)
@@ -42,7 +56,7 @@ namespace DataAccessLayer.SQL
                 cmd.CommandType = CommandType.StoredProcedure;
                 foreach (PropertyInfo property in typeof(T).GetProperties())
                 {
-                    if (property.Name != "Id")
+                    if (property.Name != "Id" && !IsNavigationProperty(property))
                         cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
 
                 }
@@ -66,7 +80,8 @@ namespace DataAccessLayer.SQL
                     isFind = true;
                     foreach (PropertyInfo property in typeof(T).GetProperties())
                     {
-                        property.SetValue(result, Convert.ChangeType(rdr[property.Name], property.PropertyType), null);
+                        if (!IsNavigationProperty(property))
+                            property.SetValue(result, Convert.ChangeType(rdr[property.Name], property.PropertyType), null);
                     }
                 }
                 if (isFind)
@@ -87,7 +102,8 @@ namespace DataAccessLayer.SQL
                 con.Open();
                 foreach (PropertyInfo property in typeof(T).GetProperties())
                 {
-                    cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
+                    if (!IsNavigationProperty(property))
+                        cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
                 }
                 cmd.ExecuteNonQuery();
             }

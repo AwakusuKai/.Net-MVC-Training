@@ -15,10 +15,10 @@ namespace BusinessLogicLayer.DTO
         public DateTime StartDate { get; set; }
         public DateTime CompletionDate { get; set; }
         public int StatusId { get; set; }
-        public Status Status { get; set; }
+        public StatusDTO Status { get; set; }
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
+        public ProjectDTO Project { get; set; }
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public EmployeeDTO Employee { get; set; }
     }
 }
