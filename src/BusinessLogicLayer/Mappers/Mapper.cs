@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,13 +16,25 @@ namespace BusinessLogicLayer.Mappers
             foreach (PropertyInfo property in typeof(I).GetProperties())
             {
                 PropertyInfo propertyInfo = typeof(T).GetProperty(property.Name);
-                if (property.CanWrite)
+                if (property.CanWrite && !IsNavigationProperty(property))
                 {
                     property.SetValue(result, System.Convert.ChangeType(propertyInfo.GetValue(obj), property.PropertyType), null);
                     continue;
                 }
             }
             return result;
+        }
+
+        private static bool IsNavigationProperty(PropertyInfo property)
+        {
+            foreach (Attribute atr in property.GetCustomAttributes())
+            {
+                if (atr is NavigationPropertyAttribute)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

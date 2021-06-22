@@ -1,14 +1,18 @@
-﻿using System;
+﻿using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Mappers;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class TaskService //: ITaskService
+    public class TaskService : ITaskService
     {
-        /*IRepository<Task> TaskRepository { get; set; }
+        IRepository<Task> TaskRepository { get; set; }
         public TaskService(IRepository<Task> taskRepository)
         {
             TaskRepository = taskRepository;
@@ -16,16 +20,10 @@ namespace BusinessLogicLayer.Services
 
         public void CreateTask(TaskDTO taskDTO)
         {
-            Task task = new Task
-            {
-                Name = taskDTO.Name,
-                WorkTime = taskDTO.WorkTime,
-                StartDate = taskDTO.StartDate,
-                CompletionDate = taskDTO.CompletionDate,
-                StatusId = taskDTO.StatusId,
-                EmployeeId = taskDTO.EmployeeId,
-                ProjectId = taskDTO.ProjectId
-            };
+            Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
+            task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
+            task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
+            task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);
             TaskRepository.Create(task);
         }
         public IEnumerable<TaskDTO> GetTasks()
@@ -33,22 +31,25 @@ namespace BusinessLogicLayer.Services
             List<TaskDTO> taskDTOs = new List<TaskDTO>();
             foreach (Task task in TaskRepository.GetAll())
             {
-
-                taskDTOs.Add(new TaskDTO { Id = task.Id, Name = task.Name, WorkTime = task.WorkTime, StartDate = task.StartDate, CompletionDate = task.CompletionDate, Status = task.Status,  });
+                TaskDTO taskDTO = Mapper.Convert<Task, TaskDTO>(task);
+                taskDTO.Project = Mapper.Convert<Project, ProjectDTO>(task.Project);
+                taskDTO.Status = Mapper.Convert<Status, StatusDTO>(task.Status);
+                taskDTO.Employee = Mapper.Convert<Employee, EmployeeDTO>(task.Employee);
+                taskDTOs.Add(taskDTO);
             }
 
-            return employeeDTOs;
+            return taskDTOs;
         }
 
-        public void UpdateEmployee(EmployeeDTO employeeDTO)
+        public void UpdateTask(TaskDTO taskDTO)
         {
             Employee employee = new Employee
             {
-                Id = employeeDTO.Id,
-                Name = employeeDTO.Name,
-                Surname = employeeDTO.Surname,
-                MiddleName = employeeDTO.MiddleName,
-                Position = employeeDTO.Position
+                Id = taskDTO.Id,
+                Name = taskDTO.Name,
+                Surname = taskDTO.Surname,
+                MiddleName = taskDTO.MiddleName,
+                Position = taskDTO.Position
             };
             TaskRepository.Update(employee);
         }
@@ -65,6 +66,6 @@ namespace BusinessLogicLayer.Services
         public void DeleteEmployee(int id)
         {
             TaskRepository.Delete(id);
-        }*/
+        }
     }
 }

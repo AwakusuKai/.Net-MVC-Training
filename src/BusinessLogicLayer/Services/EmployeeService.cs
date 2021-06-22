@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using System.Collections.Generic;
+using BusinessLogicLayer.Mappers;
 
 namespace BusinessLogicLayer.Services
 {
@@ -16,44 +17,28 @@ namespace BusinessLogicLayer.Services
 
         public void CreateEmployee(EmployeeDTO employeeDIO)
         {
-            Employee employee = new Employee
-            {
-                Name = employeeDIO.Name,
-                Surname = employeeDIO.Surname,
-                MiddleName = employeeDIO.MiddleName,
-                Position = employeeDIO.Position
-            };
-            EmployeeRepository.Create(employee);
+            EmployeeRepository.Create(Mapper.Convert<EmployeeDTO,Employee>(employeeDIO));
         }
         public IEnumerable<EmployeeDTO> GetEmployees()
         {
             List<EmployeeDTO> employeeDTOs = new List<EmployeeDTO>();
             foreach (Employee employee in EmployeeRepository.GetAll())
             {
-                employeeDTOs.Add(new EmployeeDTO { Id = employee.Id, Name = employee.Name, Surname = employee.Surname, MiddleName = employee.MiddleName, Position=employee.Position });
+                employeeDTOs.Add(Mapper.Convert<Employee,EmployeeDTO>(employee));
             }
-
             return employeeDTOs;
         }
 
         public void UpdateEmployee(EmployeeDTO employeeDTO)
         {
-            Employee employee = new Employee
-            {
-                Id = employeeDTO.Id,
-                Name = employeeDTO.Name,
-                Surname = employeeDTO.Surname,
-                MiddleName = employeeDTO.MiddleName,
-                Position = employeeDTO.Position
-            };
-            EmployeeRepository.Update(employee);
+            EmployeeRepository.Update(Mapper.Convert<EmployeeDTO,Employee>(employeeDTO));
         }
         public EmployeeDTO GetEmployee(int? id)
         {
             var employee = EmployeeRepository.GetById(id.Value);
             if (employee != null)
             {
-                return new EmployeeDTO { Name = employee.Name, Id = employee.Id, Surname = employee.Surname, MiddleName = employee.MiddleName, Position = employee.Position };
+                return Mapper.Convert<Employee, EmployeeDTO>(employee);
             }
             return null;
         }

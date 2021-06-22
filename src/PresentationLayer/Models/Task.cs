@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,16 +31,19 @@ namespace PresentationLayer.Models
         [Required(ErrorMessage = "Не указан статус задачи.")]
         public int StatusId { get; set; }
         [Display(Name = "Статус")]
+        [NavigationProperty]
         public Status Status { get; set; }
         [Display(Name = "Проект")]
         [Required(ErrorMessage = "Не указан проект задачи.")]
         public int ProjectId { get; set; }
         [Display(Name = "Проект")]
+        [NavigationProperty]
         public Project Project { get; set; }
         [Required(ErrorMessage = "Не указан исполнитель задачи.")]
         [Display(Name = "Исполнитель")]
         public int EmployeeId { get; set; }
         [Display(Name = "Исполнитель")]
+        [NavigationProperty]
         public Employee Employee { get; set; }
     }
 }
