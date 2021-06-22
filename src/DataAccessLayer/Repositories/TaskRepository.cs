@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DataAccessLayer.Repositories
 {
-    public class TaskRepository //: IRepository<Task>  
+    public class TaskRepository : IRepository<Task>  
     {
         private readonly IOptions<AppConfig> config;
         private string connectionString
@@ -27,7 +27,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Task> GetAll()
         {
-            IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetProjects"); //заполнить все, кроме навигационных свойств
+            IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetTasks"); //заполнить все, кроме навигационных свойств
             foreach (Task task in tasks)//затем заполнить все навигационные свойства
             {
                 task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);

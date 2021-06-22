@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Mappers;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,160 +15,167 @@ namespace PresentationLayer.Controllers
 {
     public class TaskController : Controller
     {
-        /*private readonly DataContext db;
-
-        public TaskController(DataContext context)
+        ITaskService taskService;
+        IEmployeeService employeeService;
+        IProjectService projectService;
+        IStatusService statusService;
+        public TaskController(ITaskService taskService, IEmployeeService employeeService, IProjectService projectService, IStatusService statusService)
         {
-            db = context;
+            this.taskService = taskService;
+            this.employeeService = employeeService;
+            this.projectService = projectService;
+            this.statusService = statusService;
         }
 
-        // GET: Task
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var dataContext = db.Tasks.Include(t => t.Employee).Include(t => t.Project).Include(t => t.Status);
-            return View(await dataContext.ToListAsync());
-        }
-
-        // GET: Task/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            IEnumerable<TaskDTO> taskDtos = taskService.GetTasks();
+            List<Task> tasks = new List<Task>();
+            foreach (TaskDTO taskDTO in taskDtos)
             {
-                return NotFound();
+                Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
+                task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);
+                task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
+                task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
+                tasks.Add(task);
             }
-
-            var task = await db.Tasks
-                .Include(t => t.Employee)
-                .Include(t => t.Project)
-                .Include(t => t.Status)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            return View(task);
+            return View(tasks);
         }
 
-        // GET: Task/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition");
-            ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name");
+            IEnumerable<EmployeeDTO> employeeDTOs = employeeService.GetEmployees();
+            List<Employee> employees = new List<Employee>();
+            foreach(EmployeeDTO employeeDTO in employeeDTOs)
+            {
+                employees.Add(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
+            }
+            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
+
+            IEnumerable<ProjectDTO> projectDTOs = projectService.GetProjects();
+            List<Project> projects = new List<Project>();
+            foreach (ProjectDTO projectDTO in projectDTOs)
+            {
+                projects.Add(Mapper.Convert<ProjectDTO, Project>(projectDTO));
+            }
+
+            IEnumerable<StatusDTO> statusDTOs = statusService.GetStatuses();
+            List<Status> statuses = new List<Status>();
+            foreach (StatusDTO statusDTO in statusDTOs)
+            {
+                statuses.Add(Mapper.Convert<StatusDTO, Status>(statusDTO));
+            }
+
+            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
+            ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
+            ViewData["StatusId"] = new SelectList(statuses, "Id", "Name"); 
             return View();
         }
 
-        // POST: Task/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,StatusId")] Task task)
+        public IActionResult Create(Task task)
         {
             if (ModelState.IsValid)
             {
-                db.Add(task);
-                await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TaskDTO taskDTO = Mapper.Convert<Task, TaskDTO>(task);
+                /*taskDTO.Project = Mapper.Convert<Project, ProjectDTO>(task.Project);
+                taskDTO.Employee = Mapper.Convert<Employee, EmployeeDTO>(task.Employee);
+                taskDTO.Status = Mapper.Convert<Status, StatusDTO>(task.Status);*/
+                taskService.CreateTask(taskDTO);
+                return RedirectToAction("Index");
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
-            ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
-            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
             return View(task);
         }
 
-        // GET: Task/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
+            TaskDTO taskDTO = taskService.GetTask(id);
+            if (taskDTO != null)
             {
-                return NotFound();
+                Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
+                task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);
+                task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
+                task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
+                return View(task);
             }
+            return NotFound();
 
-            var task = await db.Tasks.FindAsync(id);
-            if (task == null)
+        }
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public IActionResult ConfirmDelete(int id)
+        {
+            TaskDTO taskDTO = taskService.GetTask(id);
+            if (taskDTO == null)
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
-            ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
-            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
+            Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
+            task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);
+            task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
+            task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
             return View(task);
         }
 
-        // POST: Task/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ProjectId,EmployeeId,WorkTime,StartDate,CompletionDate,StatusId")] Task task)
+        public IActionResult Delete(int id)
         {
-            if (id != task.Id)
+            taskService.DeleteTask(id);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            IEnumerable<EmployeeDTO> employeeDTOs = employeeService.GetEmployees();
+            List<Employee> employees = new List<Employee>();
+            foreach (EmployeeDTO employeeDTO in employeeDTOs)
             {
-                return NotFound();
+                employees.Add(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
+            }
+            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
+
+            IEnumerable<ProjectDTO> projectDTOs = projectService.GetProjects();
+            List<Project> projects = new List<Project>();
+            foreach (ProjectDTO projectDTO in projectDTOs)
+            {
+                projects.Add(Mapper.Convert<ProjectDTO, Project>(projectDTO));
             }
 
+            IEnumerable<StatusDTO> statusDTOs = statusService.GetStatuses();
+            List<Status> statuses = new List<Status>();
+            foreach (StatusDTO statusDTO in statusDTOs)
+            {
+                statuses.Add(Mapper.Convert<StatusDTO, Status>(statusDTO));
+            }
+
+            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
+            ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
+            ViewData["StatusId"] = new SelectList(statuses, "Id", "Name");
+            if (id != null)
+            {
+                TaskDTO taskDTO = taskService.GetTask(id);
+                if (taskDTO != null)
+                {
+                    Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
+                    task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);
+                    task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
+                    task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
+                    return View(task);
+                }
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public IActionResult Edit(Task task)
+        {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.Update(task);
-                    await db.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaskExists(task.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                taskService.UpdateTask(Mapper.Convert<Task,TaskDTO>(task));
+                return RedirectToAction("Index");
             }
-            ViewData["EmployeeId"] = new SelectList(db.Employees, "Id", "FullNameAndPosition", task.EmployeeId);
-            ViewData["ProjectId"] = new SelectList(db.Projects, "Id", "Name", task.ProjectId);
-            ViewData["StatusId"] = new SelectList(db.Statuses, "Id", "Name", task.StatusId);
             return View(task);
+
         }
-
-        // GET: Task/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var task = await db.Tasks
-                .Include(t => t.Employee)
-                .Include(t => t.Project)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            return View(task);
-        }
-
-        // POST: Task/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var task = await db.Tasks.FindAsync(id);
-            db.Tasks.Remove(task);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TaskExists(int id)
-        {
-            return db.Tasks.Any(e => e.Id == id);
-        }*/
     }
 }

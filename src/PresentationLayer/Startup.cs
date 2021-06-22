@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Project = DataAccessLayer.Entities.Project;
 using DataAccessLayer.Configuration;
 using Employee = DataAccessLayer.Entities.Employee;
+using Task = DataAccessLayer.Entities.Task;
+using Status = DataAccessLayer.Entities.Status;
 
 namespace PresentationLayer
 {
@@ -35,16 +37,16 @@ namespace PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            /*services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(connection));*/
             services.Configure<AppConfig>(Configuration.GetSection("ConnectionStrings"));
             services.AddControllersWithViews();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddScoped<IRepository<Project>, ProjectRepository>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddScoped<IRepository<Employee>, EmployeeRepository>();
-            //services.AddScoped<IUnitOfWork, EFUnitOfWork>();
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddScoped<IRepository<Task>, TaskRepository>();
+            services.AddTransient<IStatusService, StatusService>();
+            services.AddScoped<IRepository<Status>, StatusRepository>();
 
 
         }
