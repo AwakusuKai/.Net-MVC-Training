@@ -57,7 +57,7 @@ namespace DataAccessLayer.SQL
                 foreach (PropertyInfo property in typeof(T).GetProperties())
                 {
                     if (property.Name != "Id" && !IsNavigationProperty(property))
-                        cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
+                        cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj) ?? DBNull.Value);
 
                 }
                 cmd.ExecuteNonQuery();
@@ -103,7 +103,7 @@ namespace DataAccessLayer.SQL
                 foreach (PropertyInfo property in typeof(T).GetProperties())
                 {
                     if (!IsNavigationProperty(property))
-                        cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj));
+                        cmd.Parameters.AddWithValue("@" + property.Name, property.GetValue(obj) ?? DBNull.Value);
                 }
                 cmd.ExecuteNonQuery();
             }

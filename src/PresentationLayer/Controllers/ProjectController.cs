@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers
 {
-    public class HomeController : Controller
+    public class ProjectController : Controller
     {
         IProjectService projectService;
-        public HomeController(IProjectService serv)
+        public ProjectController(IProjectService serv)
         {
             projectService = serv;
         }
