@@ -25,6 +25,28 @@ namespace BusinessLogicLayer.Mappers
             return result;
         }
 
+        public static IEnumerable<I> ConvertEnumerable<T, I>(IEnumerable<T> objList) where I : new()
+        {
+            List<I> result = new List<I>();
+            foreach(T obj in objList)
+            {
+                I item = new I();
+                foreach (PropertyInfo property in typeof(I).GetProperties())
+                {
+                    PropertyInfo propertyInfo = typeof(T).GetProperty(property.Name);
+                    if (property.CanWrite && !IsNavigationProperty(property))
+                    {
+                       
+                        property.SetValue(item, System.Convert.ChangeType(propertyInfo.GetValue(obj), property.PropertyType), null);
+                        
+                    }
+                }
+                result.Add(item);
+            }
+            
+            return result;
+        }
+
         private static bool IsNavigationProperty(PropertyInfo property)
         {
             foreach (Attribute atr in property.GetCustomAttributes())

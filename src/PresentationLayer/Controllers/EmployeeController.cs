@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.Mappers;
 
 namespace PresentationLayer.Controllers
 {
@@ -21,13 +22,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<EmployeeDTO> employeesDtos = employeeService.GetEmployees();
-            List<Employee> employees = new List<Employee>();
-            foreach (EmployeeDTO employeeDTO in employeesDtos)
-            {
-                employees.Add(new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName , Position = employeeDTO.Position});
-            }
-            return View(employees);
+            return View(Mapper.ConvertEnumerable<EmployeeDTO, Employee>(employeeService.GetEmployees()));
         }
 
         public IActionResult Create()
@@ -40,8 +35,7 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                EmployeeDTO employeeDTO = new EmployeeDTO { Name = employee.Name, Surname = employee.Surname, MiddleName = employee.MiddleName, Position = employee.Position };
-                employeeService.CreateEmployee(employeeDTO);
+                employeeService.CreateEmployee(Mapper.Convert<Employee,EmployeeDTO>(employee));
                 return RedirectToAction("Index");
             }
             return View(employee);
@@ -51,9 +45,8 @@ namespace PresentationLayer.Controllers
         {
             EmployeeDTO employeeDTO = employeeService.GetEmployee(id);
             if (employeeDTO != null)
-            {
-                Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
-                return View(employee);
+            { 
+                return View(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
             }
             return NotFound();
 
@@ -68,8 +61,7 @@ namespace PresentationLayer.Controllers
             {
                 return NotFound();
             }
-            Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
-            return View(employee);
+            return View(Mapper.Convert<EmployeeDTO,Employee>(employeeDTO));
         }
 
         [HttpPost]
@@ -86,8 +78,7 @@ namespace PresentationLayer.Controllers
                 EmployeeDTO employeeDTO = employeeService.GetEmployee(id);
                 if (employeeDTO != null)
                 {
-                    Employee employee = new Employee { Id = employeeDTO.Id, Name = employeeDTO.Name, Surname = employeeDTO.Surname, MiddleName = employeeDTO.MiddleName, Position = employeeDTO.Position };
-                    return View(employee);
+                    return View(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
                 }
             }
             return NotFound();
@@ -97,8 +88,7 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                EmployeeDTO employeeDTO = new EmployeeDTO { Id = employee.Id, Name = employee.Name, Surname = employee.Surname, MiddleName = employee.MiddleName, Position = employee.Position };
-                employeeService.UpdateEmployee(employeeDTO);
+                employeeService.UpdateEmployee(Mapper.Convert<Employee,EmployeeDTO>(employee));
                 return RedirectToAction("Index");
             }
             return View(employee);

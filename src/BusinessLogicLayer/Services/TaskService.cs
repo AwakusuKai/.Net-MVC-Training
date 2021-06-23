@@ -21,9 +21,6 @@ namespace BusinessLogicLayer.Services
         public void CreateTask(TaskDTO taskDTO)
         {
             Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
-            /*task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
-            task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
-            task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);*/
             TaskRepository.Create(task);
         }
         public IEnumerable<TaskDTO> GetTasks()
@@ -44,9 +41,6 @@ namespace BusinessLogicLayer.Services
         public void UpdateTask(TaskDTO taskDTO)
         {
             Task task = Mapper.Convert<TaskDTO, Task>(taskDTO);
-            /*task.Project = Mapper.Convert<ProjectDTO, Project>(taskDTO.Project);
-            task.Status = Mapper.Convert<StatusDTO, Status>(taskDTO.Status);
-            task.Employee = Mapper.Convert<EmployeeDTO, Employee>(taskDTO.Employee);*/
             TaskRepository.Update(task);
         }
         public TaskDTO GetTask(int? id)

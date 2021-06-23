@@ -44,31 +44,9 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Create()
         {
-            IEnumerable<EmployeeDTO> employeeDTOs = employeeService.GetEmployees();
-            List<Employee> employees = new List<Employee>();
-            foreach(EmployeeDTO employeeDTO in employeeDTOs)
-            {
-                employees.Add(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
-            }
-            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
-
-            IEnumerable<ProjectDTO> projectDTOs = projectService.GetProjects();
-            List<Project> projects = new List<Project>();
-            foreach (ProjectDTO projectDTO in projectDTOs)
-            {
-                projects.Add(Mapper.Convert<ProjectDTO, Project>(projectDTO));
-            }
-
-            IEnumerable<StatusDTO> statusDTOs = statusService.GetStatuses();
-            List<Status> statuses = new List<Status>();
-            foreach (StatusDTO statusDTO in statusDTOs)
-            {
-                statuses.Add(Mapper.Convert<StatusDTO, Status>(statusDTO));
-            }
-
-            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
-            ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(statuses, "Id", "Name"); 
+            ViewData["EmployeeId"] = new SelectList(Mapper.ConvertEnumerable<EmployeeDTO,Employee>(employeeService.GetEmployees()), "Id", "FullNameAndPosition");
+            ViewData["ProjectId"] = new SelectList(Mapper.ConvertEnumerable<ProjectDTO, Project>(projectService.GetProjects()), "Id", "Name");
+            ViewData["StatusId"] = new SelectList(Mapper.ConvertEnumerable<StatusDTO, Status>(statusService.GetStatuses()), "Id", "Name"); 
             return View();
         }
 
@@ -127,31 +105,9 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Edit(int? id)
         {
-            IEnumerable<EmployeeDTO> employeeDTOs = employeeService.GetEmployees();
-            List<Employee> employees = new List<Employee>();
-            foreach (EmployeeDTO employeeDTO in employeeDTOs)
-            {
-                employees.Add(Mapper.Convert<EmployeeDTO, Employee>(employeeDTO));
-            }
-            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
-
-            IEnumerable<ProjectDTO> projectDTOs = projectService.GetProjects();
-            List<Project> projects = new List<Project>();
-            foreach (ProjectDTO projectDTO in projectDTOs)
-            {
-                projects.Add(Mapper.Convert<ProjectDTO, Project>(projectDTO));
-            }
-
-            IEnumerable<StatusDTO> statusDTOs = statusService.GetStatuses();
-            List<Status> statuses = new List<Status>();
-            foreach (StatusDTO statusDTO in statusDTOs)
-            {
-                statuses.Add(Mapper.Convert<StatusDTO, Status>(statusDTO));
-            }
-
-            ViewData["EmployeeId"] = new SelectList(employees, "Id", "FullNameAndPosition");
-            ViewData["ProjectId"] = new SelectList(projects, "Id", "Name");
-            ViewData["StatusId"] = new SelectList(statuses, "Id", "Name");
+            ViewData["EmployeeId"] = new SelectList(Mapper.ConvertEnumerable<EmployeeDTO, Employee>(employeeService.GetEmployees()), "Id", "FullNameAndPosition");
+            ViewData["ProjectId"] = new SelectList(Mapper.ConvertEnumerable<ProjectDTO, Project>(projectService.GetProjects()), "Id", "Name");
+            ViewData["StatusId"] = new SelectList(Mapper.ConvertEnumerable<StatusDTO, Status>(statusService.GetStatuses()), "Id", "Name");
             if (id != null)
             {
                 TaskDTO taskDTO = taskService.GetTask(id);

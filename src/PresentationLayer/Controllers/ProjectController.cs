@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
@@ -21,13 +22,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<ProjectDTO> projectDtos = projectService.GetProjects();
-            List<Project> projects = new List<Project>();
-            foreach (ProjectDTO projectDTO in projectDtos)
-            {
-                projects.Add(new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description });
-            }
-            return View(projects);
+            return View(Mapper.ConvertEnumerable<ProjectDTO,Project>(projectService.GetProjects()));
         }
 
         public IActionResult Create()
@@ -41,8 +36,7 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProjectDTO projectDTO = new ProjectDTO { Name = project.Name, ShortName = project.ShortName, Description = project.Description };
-                projectService.CreateProject(projectDTO);
+                projectService.CreateProject(Mapper.Convert<Project, ProjectDTO>(project));
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -53,8 +47,7 @@ namespace PresentationLayer.Controllers
             ProjectDTO projectDTO = projectService.GetProject(id);
             if(projectDTO != null)
             {
-                Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
-                return View(project);
+                return View(Mapper.Convert<ProjectDTO, Project>(projectDTO));
             }
             return NotFound();
             
@@ -69,8 +62,7 @@ namespace PresentationLayer.Controllers
             {
                 return NotFound();
             }
-            Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
-            return View(project);
+            return View(Mapper.Convert<ProjectDTO, Project>(projectDTO));
         }
 
         [HttpPost]
@@ -87,8 +79,7 @@ namespace PresentationLayer.Controllers
                 ProjectDTO projectDTO = projectService.GetProject(id);
                 if (projectDTO != null)
                 {
-                    Project project = new Project { Id = projectDTO.Id, Name = projectDTO.Name, ShortName = projectDTO.ShortName, Description = projectDTO.Description };
-                    return View(project);
+                    return View(Mapper.Convert<ProjectDTO, Project>(projectDTO));
                 }
             }
             return NotFound();
@@ -98,8 +89,7 @@ namespace PresentationLayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProjectDTO projectDTO = new ProjectDTO { Id = project.Id, Name = project.Name, ShortName = project.ShortName, Description = project.Description };
-                projectService.UpdateProject(projectDTO);
+                projectService.UpdateProject(Mapper.Convert<Project,ProjectDTO>(project));
                 return RedirectToAction("Index");
             }
             return View(project);
