@@ -1,4 +1,5 @@
 ﻿@model PresentationLayer.Models.Project
+
 @{
     ViewData["Title"] = "Добавление проекта";
 }
@@ -25,6 +26,63 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Tasks" class="control-label"></label>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Идентификатор
+                            </th>
+                            <th>
+                                Название
+                            </th>
+                            <th>
+                                Дата начала
+                            </th>
+                            <th>
+                                Дата окончания
+                            </th>
+                            <th>
+                                Исполнитель
+                            </th>
+                            <th>
+                                Статус
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Tasks)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CompletionDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status.Name)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a asp-action="AddTask">Добавить задачу</a>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>

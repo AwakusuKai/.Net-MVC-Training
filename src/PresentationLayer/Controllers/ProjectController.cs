@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
 using System;
@@ -15,9 +16,14 @@ namespace PresentationLayer.Controllers
     public class ProjectController : Controller
     {
         IProjectService projectService;
-        public ProjectController(IProjectService serv)
+        IEmployeeService employeeService;
+        IStatusService statusService;
+
+        public ProjectController(IProjectService projectService, IEmployeeService employeeService, IStatusService statusService)
         {
-            projectService = serv;
+            this.projectService = projectService;
+            this.employeeService = employeeService;
+            this.statusService = statusService;
         }
 
         public IActionResult Index()
@@ -27,8 +33,17 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Create()
         {
-
-            return View();
+            Project project = new Project();
+            return View(project);
+        }
+        
+        public IActionResult AddTask(Project project)
+        {
+            ViewData["EmployeeId"] = new SelectList(Mapper.ConvertEnumerable<EmployeeDTO, Employee>(employeeService.GetEmployees()), "Id", "FullNameAndPosition");
+            ViewData["StatusId"] = new SelectList(Mapper.ConvertEnumerable<StatusDTO, Status>(statusService.GetStatuses()), "Id", "Name");
+            Models.Task task = new Models.Task();
+            task.Project = project;
+            return View(task);
         }
 
         [HttpPost]
