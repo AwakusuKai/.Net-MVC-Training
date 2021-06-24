@@ -10,20 +10,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Task = PresentationLayer.Models.Task;
 
 namespace PresentationLayer.Controllers
 {
     public class ProjectController : Controller
     {
         IProjectService projectService;
-        IEmployeeService employeeService;
-        IStatusService statusService;
 
-        public ProjectController(IProjectService projectService, IEmployeeService employeeService, IStatusService statusService)
+        public ProjectController(IProjectService projectService)
         {
             this.projectService = projectService;
-            this.employeeService = employeeService;
-            this.statusService = statusService;
         }
 
         public IActionResult Index()
@@ -33,17 +30,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Create()
         {
-            Project project = new Project();
-            return View(project);
-        }
-        
-        public IActionResult AddTask(Project project)
-        {
-            ViewData["EmployeeId"] = new SelectList(Mapper.ConvertEnumerable<EmployeeDTO, Employee>(employeeService.GetEmployees()), "Id", "FullNameAndPosition");
-            ViewData["StatusId"] = new SelectList(Mapper.ConvertEnumerable<StatusDTO, Status>(statusService.GetStatuses()), "Id", "Name");
-            Models.Task task = new Models.Task();
-            task.Project = project;
-            return View(task);
+            return View();
         }
 
         [HttpPost]
