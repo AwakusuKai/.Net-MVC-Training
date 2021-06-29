@@ -22,7 +22,6 @@ namespace PresentationLayer
                 .ConfigureWebHostDefaults(webBuilder =>
                 { 
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseKestrel();
                     webBuilder.UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
                 });
     }
