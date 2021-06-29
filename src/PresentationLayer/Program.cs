@@ -22,7 +22,7 @@ namespace PresentationLayer
                 .ConfigureWebHostDefaults(webBuilder =>
                 { 
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+                    //webBuilder.UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
                 });
     }
 }
