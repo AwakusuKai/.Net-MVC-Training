@@ -37,7 +37,6 @@ namespace DataAccessLayer.Repositories
                 while (reader.Read())
                 {
                     employees.Add(new Employee { Id = Convert.ToInt32(reader["Id"]), Name = reader["Name"].ToString(), Surname = reader["Surname"].ToString(), MiddleName = reader["Surname"].ToString(), Position = reader["Position"].ToString() });
-                    int A = Convert.ToInt32(reader["aboba"]);
                 }
             }
             return employees;
