@@ -5,4 +5,3 @@ dotnet build --configuration Development --output ..\\TaskManagerBuild ..\\src\\
 cd ..\\TaskManagerBuild
 start PresentationLayer.exe
 start https://localhost:5001
-pause
