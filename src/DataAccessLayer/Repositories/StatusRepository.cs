@@ -40,27 +40,22 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return statuses;
-            //return SQLCall.GetAllRequest<Status>(connectionString, "spGetStatuses");
         }
 
         public void Create(Status status)
         {
-            //SQLCall.CreateRequest<Project>(connectionString, "spCreateProject", project);
         }
 
         public Status GetById(int id)
         {
             return null;
-            //return SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", id);
         }
 
         public void Update(Status status)
         {
-            //SQLCall.UpdateRequest<Project>(connectionString, "spUpdateProject", project);
         }
         public void Delete(int id)
         {
-            //SQLCall.DeleteRequest(connectionString, "spDeleteProjectById", id);
         }
     }
 }

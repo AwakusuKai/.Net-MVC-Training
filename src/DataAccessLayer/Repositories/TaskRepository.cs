@@ -42,15 +42,6 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return tasks;
-            /* IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetTasks"); //заполнить все, кроме навигационных свойств
-             foreach (Task task in tasks)//затем заполнить все навигационные свойства
-             {
-                 task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
-                 task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
-                 task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
-             }
-             return tasks;*/
-            //return null;
         }
 
         public void Create(Task task)
@@ -67,7 +58,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@EmployeeId", task.EmployeeId);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.CreateRequest<Task>(connectionString, "spCreateTask", task);
         }
 
         public Task GetById(int id)
@@ -95,14 +85,6 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return task;
-            /*Task task = SQLCall.GetByIdRequest<Task>(connectionString, "spGetTaskById", id);
-            if (task != null)
-            {
-                task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
-                task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
-                task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
-            }
-            return task;*/
         }
 
         public void Update(Task task)
@@ -120,7 +102,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@EmployeeId", task.EmployeeId);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.UpdateRequest<Task>(connectionString, "spUpdateTask", task);
         }
         public void Delete(int id)
         {
@@ -130,7 +111,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.DeleteRequest(connectionString, "spDeleteTaskById", id);
         }
     }
 }

@@ -37,10 +37,10 @@ namespace DataAccessLayer.Repositories
                 while (reader.Read())
                 {
                     employees.Add(new Employee { Id = Convert.ToInt32(reader["Id"]), Name = reader["Name"].ToString(), Surname = reader["Surname"].ToString(), MiddleName = reader["Surname"].ToString(), Position = reader["Position"].ToString() });
+                    int A = Convert.ToInt32(reader["aboba"]);
                 }
             }
             return employees;
-            //return SQLCall.GetAllRequest<Employee>(connectionString, "spGetEmployees");
         }
 
         public void Create(Employee employee)
@@ -54,7 +54,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@Position", employee.Position);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.CreateRequest<Employee>(connectionString, "spCreateEmployee", employee);
         }
 
         public Employee GetById(int id)
@@ -69,7 +68,6 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return employee;
-            //return SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", id);
         }
 
         public void Update(Employee employee)
@@ -84,7 +82,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@Position", employee.Position);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.UpdateRequest<Employee>(connectionString, "spUpdateEmployee", employee);
         }
         public void Delete(int id)
         {
@@ -94,7 +91,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.DeleteRequest(connectionString, "spDeleteEmployeeById", id);
         }
 
     }

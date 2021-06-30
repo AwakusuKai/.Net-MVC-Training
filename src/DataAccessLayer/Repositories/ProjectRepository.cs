@@ -37,7 +37,6 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return projects;
-            //return SQLCall.GetAllRequest<Project>(connectionString, "spGetProjects");
         }
 
         public void Create(Project project)
@@ -51,7 +50,6 @@ namespace DataAccessLayer.Repositories
 
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.CreateRequest<Project>(connectionString, "spCreateProject", project);
         }
 
         public Project GetById(int id)
@@ -66,21 +64,19 @@ namespace DataAccessLayer.Repositories
                 }
             }
             return project;
-            //return SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", id);
         }
 
         public void Update(Project project)
         {
-            using (SqlConnection con = new SqlConnection("spUpdateProject"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spUpdateProject");
                 sqlCommand.Parameters.AddWithValue("@Id", project.Id);
                 sqlCommand.Parameters.AddWithValue("@Name", project.Name);
                 sqlCommand.Parameters.AddWithValue("@ShortName", project.ShortName);
                 sqlCommand.Parameters.AddWithValue("@Description", project.Description);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.UpdateRequest<Project>(connectionString, "spUpdateProject", project);
         }
         public void Delete(int id)
         {
@@ -90,7 +86,6 @@ namespace DataAccessLayer.Repositories
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }
-            //SQLCall.DeleteRequest(connectionString, "spDeleteProjectById", id);
         }
     }
 }
