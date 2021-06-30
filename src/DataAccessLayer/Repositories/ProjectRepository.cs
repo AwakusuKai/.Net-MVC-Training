@@ -80,9 +80,9 @@ namespace DataAccessLayer.Repositories
         }
         public void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection("spDeleteProjectById"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spDeleteProjectById");
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }

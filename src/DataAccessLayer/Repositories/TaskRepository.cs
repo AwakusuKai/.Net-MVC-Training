@@ -89,9 +89,9 @@ namespace DataAccessLayer.Repositories
 
         public void Update(Task task)
         {
-            using (SqlConnection con = new SqlConnection("spUpdateTask"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spUpdateTask");
                 sqlCommand.Parameters.AddWithValue("@Id", task.Id);
                 sqlCommand.Parameters.AddWithValue("@Name", task.Name);
                 sqlCommand.Parameters.AddWithValue("@WorkTime", task.WorkTime);
@@ -105,9 +105,9 @@ namespace DataAccessLayer.Repositories
         }
         public void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection("spDeleteTaskById"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spDeleteTaskById");
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }

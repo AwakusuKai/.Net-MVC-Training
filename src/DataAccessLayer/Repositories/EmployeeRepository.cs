@@ -72,9 +72,9 @@ namespace DataAccessLayer.Repositories
 
         public void Update(Employee employee)
         {
-            using (SqlConnection con = new SqlConnection("spUpdateEmployee"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spUpdateEmployee");
                 sqlCommand.Parameters.AddWithValue("@Id", employee.Id);
                 sqlCommand.Parameters.AddWithValue("@Name", employee.Name);
                 sqlCommand.Parameters.AddWithValue("@Surname", employee.Surname);
@@ -85,9 +85,9 @@ namespace DataAccessLayer.Repositories
         }
         public void Delete(int id)
         {
-            using (SqlConnection con = new SqlConnection("spDeleteEmployeeById"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spDeleteEmployeeById");
                 sqlCommand.Parameters.AddWithValue("@Id", id);
                 sqlCommand.ExecuteNonQuery();
             }
