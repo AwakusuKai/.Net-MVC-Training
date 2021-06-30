@@ -12,7 +12,34 @@ namespace DataAccessLayer.SQL
 {
     static public class SQLCall
     {
-        public static IEnumerable<T> GetAllRequest<T>(string connectionString, string command) where T : new()
+
+        public static SqlDataReader ReadCall(SqlConnection sqlConnection, string commandString)
+        {
+            SqlCommand command = new SqlCommand(commandString, sqlConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            sqlConnection.Open();
+            SqlDataReader rdr = command.ExecuteReader();
+            return rdr;
+        }
+
+        public static SqlDataReader ReadCall(SqlConnection sqlConnection, string commandString, int id)
+        {
+            SqlCommand command = new SqlCommand(commandString, sqlConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@Id", id);
+            sqlConnection.Open();
+            SqlDataReader rdr = command.ExecuteReader();
+            return rdr;
+        }
+
+        public static SqlCommand WriteCall(SqlConnection sqlConnection, string commandString)
+        {
+            var command = new SqlCommand(commandString, sqlConnection);
+            sqlConnection.Open();
+            command.CommandType = CommandType.StoredProcedure;
+            return command;
+        }
+        /*public static IEnumerable<T> GetAllRequest<T>(string connectionString, string command) where T : new()
         {
             List<T> resultList = new List<T>();
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -35,7 +62,7 @@ namespace DataAccessLayer.SQL
             return resultList;
         }
 
-        private static bool IsNavigationProperty(PropertyInfo property)
+        /*private static bool IsNavigationProperty(PropertyInfo property)
         {
             foreach (Attribute atr in property.GetCustomAttributes())
             {
@@ -119,6 +146,6 @@ namespace DataAccessLayer.SQL
                 cmd.Parameters.AddWithValue("@Id", id);
                 cmd.ExecuteNonQuery();
             }
-        }
+        }*/
     }
 }

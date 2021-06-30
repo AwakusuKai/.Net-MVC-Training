@@ -5,6 +5,7 @@ using DataAccessLayer.SQL;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,17 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Status> GetAll()
         {
-            return SQLCall.GetAllRequest<Status>(connectionString, "spGetStatuses");
+            List<Status> statuses = new List<Status>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlDataReader reader = SQLCall.ReadCall(con, "spGetStatuses");
+                while (reader.Read())
+                {
+                    statuses.Add(new Status { Id = Convert.ToInt32(reader["Id"]), Name = reader["Name"].ToString() });
+                }
+            }
+            return statuses;
+            //return SQLCall.GetAllRequest<Status>(connectionString, "spGetStatuses");
         }
 
         public void Create(Status status)

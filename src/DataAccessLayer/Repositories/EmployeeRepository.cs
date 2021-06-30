@@ -30,26 +30,71 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Employee> GetAll()
         {
-            return SQLCall.GetAllRequest<Employee>(connectionString, "spGetEmployees");
+            List<Employee> employees = new List<Employee>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlDataReader reader = SQLCall.ReadCall(con, "spGetEmployees");
+                while (reader.Read())
+                {
+                    employees.Add(new Employee { Id = Convert.ToInt32(reader["Id"]), Name = reader["Name"].ToString(), Surname = reader["Surname"].ToString(), MiddleName = reader["Surname"].ToString(), Position = reader["Position"].ToString() });
+                }
+            }
+            return employees;
+            //return SQLCall.GetAllRequest<Employee>(connectionString, "spGetEmployees");
         }
 
         public void Create(Employee employee)
         {
-            SQLCall.CreateRequest<Employee>(connectionString, "spCreateEmployee", employee);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spCreateEmployee");
+                sqlCommand.Parameters.AddWithValue("@Name", employee.Name);
+                sqlCommand.Parameters.AddWithValue("@Surname", employee.Surname);
+                sqlCommand.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
+                sqlCommand.Parameters.AddWithValue("@Position", employee.Position);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.CreateRequest<Employee>(connectionString, "spCreateEmployee", employee);
         }
 
         public Employee GetById(int id)
         {
-            return SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", id);
+            Employee employee = null;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlDataReader reader = SQLCall.ReadCall(con, "spGetEmployeeById", id);
+                while (reader.Read())
+                {
+                    employee = new Employee { Id = Convert.ToInt32(reader["Id"]), Name = reader["Name"].ToString(), Surname = reader["Surname"].ToString(), MiddleName = reader["Surname"].ToString(), Position = reader["Position"].ToString() };
+                }
+            }
+            return employee;
+            //return SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", id);
         }
 
         public void Update(Employee employee)
         {
-            SQLCall.UpdateRequest<Employee>(connectionString, "spUpdateEmployee", employee);
+            using (SqlConnection con = new SqlConnection("spUpdateEmployee"))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                sqlCommand.Parameters.AddWithValue("@Id", employee.Id);
+                sqlCommand.Parameters.AddWithValue("@Name", employee.Name);
+                sqlCommand.Parameters.AddWithValue("@Surname", employee.Surname);
+                sqlCommand.Parameters.AddWithValue("@MiddleName", employee.MiddleName);
+                sqlCommand.Parameters.AddWithValue("@Position", employee.Position);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.UpdateRequest<Employee>(connectionString, "spUpdateEmployee", employee);
         }
         public void Delete(int id)
         {
-            SQLCall.DeleteRequest(connectionString, "spDeleteEmployeeById", id);
+            using (SqlConnection con = new SqlConnection("spDeleteEmployeeById"))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                sqlCommand.Parameters.AddWithValue("@Id", id);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.DeleteRequest(connectionString, "spDeleteEmployeeById", id);
         }
 
     }

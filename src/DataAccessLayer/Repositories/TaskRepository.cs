@@ -5,6 +5,7 @@ using DataAccessLayer.SQL;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -27,40 +28,109 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<Task> GetAll()
         {
-            IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetTasks"); //заполнить все, кроме навигационных свойств
-            foreach (Task task in tasks)//затем заполнить все навигационные свойства
+            List<Task> tasks = new List<Task>();
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
-                task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
-                task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
-                task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
+                SqlDataReader reader = SQLCall.ReadCall(con, "spGetTasks");
+                while (reader.Read())
+                {
+                    tasks.Add(new Task { Id = Convert.ToInt32(reader["taskId"]), Name = reader["taskName"].ToString(), WorkTime = Convert.ToInt32(reader["WorkTime"]), StartDate = Convert.ToDateTime(reader["StartDate"]), CompletionDate = Convert.ToDateTime(reader["CompletionDate"]), EmployeeId = Convert.ToInt32(reader["EmployeeId"]), ProjectId = Convert.ToInt32(reader["ProjectId"]), StatusId = Convert.ToInt32(reader["StatusId"]),
+                    Project = new Project { Id = Convert.ToInt32(reader["ProjectId"]), Description = reader["Description"].ToString(), Name = reader["ProjectName"].ToString(), ShortName = reader["ShortName"].ToString() },
+                    Status  = new Status { Id = Convert.ToInt32(reader["StatusId"]), Name = reader["StatusName"].ToString()},
+                    Employee = new Employee { Id= Convert.ToInt32(reader["EmployeeId"]), Name = reader["EmployeeName"].ToString(), MiddleName = reader["MiddleName"].ToString(), Surname = reader["Surname"].ToString(), Position = reader["Position"].ToString()}
+                    });
+                }
             }
             return tasks;
+            /* IEnumerable<Task> tasks = SQLCall.GetAllRequest<Task>(connectionString, "spGetTasks"); //заполнить все, кроме навигационных свойств
+             foreach (Task task in tasks)//затем заполнить все навигационные свойства
+             {
+                 task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
+                 task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
+                 task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
+             }
+             return tasks;*/
+            //return null;
         }
 
         public void Create(Task task)
         {
-            SQLCall.CreateRequest<Task>(connectionString, "spCreateTask", task);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, "spCreateTask");
+                sqlCommand.Parameters.AddWithValue("@Name", task.Name);
+                sqlCommand.Parameters.AddWithValue("@WorkTime", task.WorkTime);
+                sqlCommand.Parameters.AddWithValue("@StartDate", task.StartDate);
+                sqlCommand.Parameters.AddWithValue("@CompletionDate", task.CompletionDate);
+                sqlCommand.Parameters.AddWithValue("@StatusId", task.StatusId);
+                sqlCommand.Parameters.AddWithValue("@ProjectId", task.ProjectId);
+                sqlCommand.Parameters.AddWithValue("@EmployeeId", task.EmployeeId);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.CreateRequest<Task>(connectionString, "spCreateTask", task);
         }
 
         public Task GetById(int id)
         {
-            Task task = SQLCall.GetByIdRequest<Task>(connectionString, "spGetTaskById", id);
+            Task task = null;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlDataReader reader = SQLCall.ReadCall(con, "spGetTaskById", id);
+                while (reader.Read())
+                {
+                    task = new Task
+                    {
+                        Id = Convert.ToInt32(reader["taskId"]),
+                        Name = reader["taskName"].ToString(),
+                        WorkTime = Convert.ToInt32(reader["WorkTime"]),
+                        StartDate = Convert.ToDateTime(reader["StartDate"]),
+                        CompletionDate = Convert.ToDateTime(reader["CompletionDate"]),
+                        EmployeeId = Convert.ToInt32(reader["EmployeeId"]),
+                        ProjectId = Convert.ToInt32(reader["ProjectId"]),
+                        StatusId = Convert.ToInt32(reader["StatusId"]),
+                        Project = new Project { Id = Convert.ToInt32(reader["ProjectId"]), Description = reader["Description"].ToString(), Name = reader["ProjectName"].ToString(), ShortName = reader["ShortName"].ToString() },
+                        Status = new Status { Id = Convert.ToInt32(reader["StatusId"]), Name = reader["StatusName"].ToString() },
+                        Employee = new Employee { Id = Convert.ToInt32(reader["EmployeeId"]), Name = reader["EmployeeName"].ToString(), MiddleName = reader["MiddleName"].ToString(), Surname = reader["Surname"].ToString(), Position = reader["Position"].ToString() }
+                    };
+                }
+            }
+            return task;
+            /*Task task = SQLCall.GetByIdRequest<Task>(connectionString, "spGetTaskById", id);
             if (task != null)
             {
                 task.Employee = SQLCall.GetByIdRequest<Employee>(connectionString, "spGetEmployeeById", task.EmployeeId);
                 task.Project = SQLCall.GetByIdRequest<Project>(connectionString, "spGetProjectById", task.ProjectId);
                 task.Status = SQLCall.GetByIdRequest<Status>(connectionString, "spGetStatusById", task.StatusId);
             }
-            return task;
+            return task;*/
         }
 
         public void Update(Task task)
         {
-            SQLCall.UpdateRequest<Task>(connectionString, "spUpdateTask", task);
+            using (SqlConnection con = new SqlConnection("spUpdateTask"))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                sqlCommand.Parameters.AddWithValue("@Id", task.Id);
+                sqlCommand.Parameters.AddWithValue("@Name", task.Name);
+                sqlCommand.Parameters.AddWithValue("@WorkTime", task.WorkTime);
+                sqlCommand.Parameters.AddWithValue("@StartDate", task.StartDate);
+                sqlCommand.Parameters.AddWithValue("@CompletionDate", task.CompletionDate);
+                sqlCommand.Parameters.AddWithValue("@StatusId", task.StatusId);
+                sqlCommand.Parameters.AddWithValue("@ProjectId", task.ProjectId);
+                sqlCommand.Parameters.AddWithValue("@EmployeeId", task.EmployeeId);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.UpdateRequest<Task>(connectionString, "spUpdateTask", task);
         }
         public void Delete(int id)
         {
-            SQLCall.DeleteRequest(connectionString, "spDeleteTaskById", id);
+            using (SqlConnection con = new SqlConnection("spDeleteTaskById"))
+            {
+                SqlCommand sqlCommand = SQLCall.WriteCall(con, connectionString);
+                sqlCommand.Parameters.AddWithValue("@Id", id);
+                sqlCommand.ExecuteNonQuery();
+            }
+            //SQLCall.DeleteRequest(connectionString, "spDeleteTaskById", id);
         }
     }
 }
