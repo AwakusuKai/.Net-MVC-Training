@@ -22,6 +22,7 @@ using DataAccessLayer.Configuration;
 using Employee = DataAccessLayer.Entities.Employee;
 using Task = DataAccessLayer.Entities.Task;
 using Status = DataAccessLayer.Entities.Status;
+using Microsoft.Extensions.Logging;
 
 namespace PresentationLayer
 {
@@ -52,7 +53,7 @@ namespace PresentationLayer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
 
             if (env.IsDevelopment())

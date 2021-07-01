@@ -17,25 +17,30 @@ namespace PresentationLayer.Controllers
     public class ProjectController : Controller
     {
         IProjectService projectService;
+        ILogger logger;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, ILogger<ProjectController> logger)
         {
             this.projectService = projectService;
+            this.logger = logger;
         }
 
         public IActionResult Index()
         {
+            logger.LogInformation("Project/Index Get request");
             return View(Mapper.ConvertEnumerable<ProjectDTO,Project>(projectService.GetProjects()));
         }
 
         public IActionResult Create()
         {
+            logger.LogInformation("Project/Create Get request");
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Project project)
         {
+            logger.LogInformation("Project/Create Post request");
             if (ModelState.IsValid)
             {
                 projectService.CreateProject(Mapper.Convert<Project, ProjectDTO>(project));
@@ -46,6 +51,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Details(int id)
         {
+            logger.LogInformation("Project/Details Get request");
             ProjectDTO projectDTO = projectService.GetProject(id);
             if(projectDTO != null)
             {
@@ -59,6 +65,7 @@ namespace PresentationLayer.Controllers
         [ActionName("Delete")]
         public IActionResult ConfirmDelete(int id)
         {
+            logger.LogInformation($"Project/Delete/{id} Get request");
             ProjectDTO projectDTO = projectService.GetProject(id);
             if (projectDTO == null)
             {
@@ -70,12 +77,14 @@ namespace PresentationLayer.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
+            logger.LogInformation($"Project/Delete/{id} Post request");
             projectService.DeleteProject(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int? id)
         {
+            logger.LogInformation($"Project/Edit/{id} Get request");
             if (id != null)
             {
                 ProjectDTO projectDTO = projectService.GetProject(id);
@@ -89,6 +98,7 @@ namespace PresentationLayer.Controllers
         [HttpPost]
         public IActionResult Edit(Project project)
         {
+            logger.LogInformation("Project/Edit Post request");
             if (ModelState.IsValid)
             {
                 projectService.UpdateProject(Mapper.Convert<Project,ProjectDTO>(project));
